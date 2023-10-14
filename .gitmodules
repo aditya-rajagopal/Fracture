@@ -1,0 +1,3 @@
+[submodule "Fracture/vendor/spdlog"]
+	path = Fracture/vendor/spdlog
+	url = https://github.com/gabime/spdlog

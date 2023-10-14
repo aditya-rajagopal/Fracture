@@ -4,6 +4,7 @@
 
 // For use by Fracture applications
 #include "Fracture\Application.h"
+#include "Fracture\Log.h"
 
 
 // ---Entry Point-----------------
