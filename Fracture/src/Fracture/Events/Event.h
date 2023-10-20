@@ -2,9 +2,6 @@
 
 #include "Fracture\Core.h"
 
-#include <string>
-#include <functional>
-
 
 namespace Fracture {
 

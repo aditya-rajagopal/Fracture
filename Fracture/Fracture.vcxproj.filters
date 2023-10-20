@@ -19,12 +19,22 @@
     <ClInclude Include="src\Fracture\EntryPoint.h">
       <Filter>Fracture</Filter>
     </ClInclude>
+    <ClInclude Include="src\Fracture\Events\ApplicationEvent.h">
+      <Filter>Fracture\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\Fracture\Events\Event.h">
+      <Filter>Fracture\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fracture\Events\KeyEvent.h">
+      <Filter>Fracture\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fracture\Events\MouseEvent.h">
       <Filter>Fracture\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Fracture\Log.h">
       <Filter>Fracture</Filter>
     </ClInclude>
+    <ClInclude Include="src\frpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Fracture\Application.cpp">
@@ -33,5 +43,6 @@
     <ClCompile Include="src\Fracture\Log.cpp">
       <Filter>Fracture</Filter>
     </ClCompile>
+    <ClCompile Include="src\frpch.cpp" />
   </ItemGroup>
 </Project>

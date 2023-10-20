@@ -18,6 +18,9 @@ project "Fracture"
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+    pchheader "frpch.h"
+    pchsource "Fracture/src/frpch.cpp"
+
     files
     {
         "%{prj.name}/src/**.h",
