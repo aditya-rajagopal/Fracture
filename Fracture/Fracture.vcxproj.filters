@@ -4,6 +4,9 @@
     <Filter Include="Fracture">
       <UniqueIdentifier>{2109A846-0DD6-0252-36EF-F0F9221B38E0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fracture\Events">
+      <UniqueIdentifier>{E50516CA-5191-838E-5AA2-0683C6ACDF8E}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Fracture.h" />
@@ -15,6 +18,9 @@
     </ClInclude>
     <ClInclude Include="src\Fracture\EntryPoint.h">
       <Filter>Fracture</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fracture\Events\Event.h">
+      <Filter>Fracture\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Fracture\Log.h">
       <Filter>Fracture</Filter>

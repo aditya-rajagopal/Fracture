@@ -4,6 +4,7 @@
 
 #include "Core.h"
 #include "spdlog/spdlog.h"
+#include "spdlog/fmt/ostr.h"
 
 namespace Fracture {
 	class FRACTURE_API Log
@@ -20,6 +21,7 @@ namespace Fracture {
 }
 
 // Internal engine logging macros
+// the ::Fracture:: ensures it is accessed from the global namespace
 #define FR_CORE_FATAL(...)	::Fracture::Log::GetCoreLogger()->fatal(__VA_ARGS__)
 #define FR_CORE_ERROR(...)	::Fracture::Log::GetCoreLogger()->error(__VA_ARGS__)
 #define FR_CORE_WARN(...)	::Fracture::Log::GetCoreLogger()->warn(__VA_ARGS__)
@@ -32,5 +34,3 @@ namespace Fracture {
 #define FR_WARN(...)		::Fracture::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define FR_INFO(...)		::Fracture::Log::GetClientLogger()->info(__VA_ARGS__)
 #define FR_TRACE(...)		::Fracture::Log::GetClientLogger()->trace(__VA_ARGS__)
-
-
