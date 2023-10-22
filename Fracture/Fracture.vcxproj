@@ -157,12 +157,13 @@
     <ClInclude Include="src\Fracture\Events\Event.h" />
     <ClInclude Include="src\Fracture\Events\KeyEvent.h" />
     <ClInclude Include="src\Fracture\Events\MouseEvent.h" />
-    <ClInclude Include="src\Fracture\Log.h" />
+    <ClInclude Include="src\Fracture\Utils\Log.h" />
+    <ClInclude Include="src\Fracture\Utils\Instrumentation.h" />
     <ClInclude Include="src\frpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Fracture\Application.cpp" />
-    <ClCompile Include="src\Fracture\Log.cpp" />
+    <ClCompile Include="src\Fracture\Utils\Log.cpp" />
     <ClCompile Include="src\frpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
