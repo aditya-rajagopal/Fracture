@@ -7,6 +7,15 @@
     <Filter Include="Fracture\Events">
       <UniqueIdentifier>{E50516CA-5191-838E-5AA2-0683C6ACDF8E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fracture\Platform">
+      <UniqueIdentifier>{951ACDC3-0131-CB59-4AA8-567BB6FD9BE1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fracture\Platform\Windows">
+      <UniqueIdentifier>{CF89C236-3B4C-F6C0-84FC-844DF0FDCE9E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fracture\Utils">
+      <UniqueIdentifier>{419FF2D0-2D6D-E6D6-1601-57FD026EC23B}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Fracture.h" />
@@ -31,18 +40,29 @@
     <ClInclude Include="src\Fracture\Events\MouseEvent.h">
       <Filter>Fracture\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Fracture\Platform\Windows\WindowsWindow.h">
+      <Filter>Fracture\Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fracture\Utils\Instrumentation.h">
+      <Filter>Fracture\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="src\Fracture\Utils\Log.h">
+      <Filter>Fracture\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fracture\Window.h">
       <Filter>Fracture</Filter>
     </ClInclude>
     <ClInclude Include="src\frpch.h" />
-    <ClInclude Include="src\Fracture\Utils\Instrumentation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Fracture\Application.cpp">
       <Filter>Fracture</Filter>
     </ClCompile>
+    <ClCompile Include="src\Fracture\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Fracture\Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\Fracture\Utils\Log.cpp">
-      <Filter>Fracture</Filter>
+      <Filter>Fracture\Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\frpch.cpp" />
   </ItemGroup>

@@ -1,3 +1,6 @@
 [submodule "Fracture/vendor/spdlog"]
 	path = Fracture/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Fracture/vendor/GLFW"]
+	path = Fracture/vendor/GLFW
+	url = https://github.com/TheCherno/GLFW
