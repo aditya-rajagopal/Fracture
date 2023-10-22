@@ -1,5 +1,5 @@
 #pragma once
-
+#include "frpch.h"
 #include "Fracture\Core.h"
 
 
@@ -65,11 +65,11 @@ namespace Fracture {
 		template<typename T>
 		bool Dispatch(EventFn<T> func)
 		{
-			if (mEvent.GetEventType() == T::GetSaticType())
+			if (mEvent.GetEventType() == T::GetStaticType())
 			{
 				// We convert the mEvent reference to a pointer of type T with (T*) and then dereference it with *
 				// since we have defined EventFn<T> as function that takes a reference of event of type T and returns a bool
-				mEvent.Handled = funct(*(T*)&mEvent); // Call the function and cast the event to type T
+				mEvent.Handled = func(*(T*)&mEvent); // Call the function and cast the event to type T
 				return true; // Return true if the event is of type T
 			}
 			return false; // Return false if the event is not of type T

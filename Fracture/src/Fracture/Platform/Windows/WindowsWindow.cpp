@@ -1,6 +1,10 @@
 #include "frpch.h"
 #include "WindowsWindow.h"
 
+#include "Fracture\Events\ApplicationEvent.h"
+#include "Fracture\Events\KeyEvent.h"
+#include "Fracture\Events\MouseEvent.h"
+
 
 namespace Fracture {
 
@@ -16,6 +20,11 @@ namespace Fracture {
 		Init(props);
 	}
 
+	static void GLFWErrorCallback(int error, const char* description)
+	{
+		FR_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
+	}
+
 	void WindowsWindow::Init(const WindowProperties& props)
 	{
 		m_Data.Title = props.Title;
@@ -28,14 +37,100 @@ namespace Fracture {
 		{
 			int success = glfwInit();
 			FR_CORE_ASSERT(success, "Could not initialize GLFW!");
-
+			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}
 
 		m_Window = glfwCreateWindow((int)m_Data.Width, (int)m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window); // set current context to this window. This means that all future OpenGL calls will affect this window and its context.
+		// in glfw we can provide a pointer to some user-defined data with glfwSetWindowUserPointer. We can use this to store a pointer to our WindowData struct.
+		// This can be later retrieved with glfwGetWindowUserPointer. This is useful for example when we want to access the window data from within a GLFW callback function.
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
+
+		// Set GLFW callbacks
+		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) // lambda function
+			{
+				// glfwGetWindowUserPointer returns a void* pointer to the user-defined data of this window. We set this pointer with glfwSetWindowUserPointer in the Init() method.
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window); // get window data from user pointer
+				data.Width = width;
+				data.Height = height;
+
+				WindowResizeEvent event(width, height);
+				data.EventCallback(event);
+			});
+
+		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
+			{
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window); // get window data from user pointer
+
+				WindowCloseEvent event;
+				data.EventCallback(event);
+			});
+
+		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+			{
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window); // get window data from user pointer
+
+				switch (action)
+				{
+					case GLFW_PRESS:
+					{
+						KeyPressedEvent event(key, 0);
+						data.EventCallback(event);
+						break;
+					}
+					case GLFW_RELEASE:
+					{
+						KeyReleasedEvent event(key);
+						data.EventCallback(event);
+						break;
+					}
+					case GLFW_REPEAT:
+					{
+						KeyPressedEvent event(key, 1);
+						data.EventCallback(event);
+						break;
+					}
+				}
+			});
+
+		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
+			{
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window); // get window data from user pointer
+
+				switch (action)
+				{
+					case GLFW_PRESS:
+					{
+						MouseButtonPressedEvent event(button);
+						data.EventCallback(event);
+						break;
+					}
+					case GLFW_RELEASE:
+					{
+						MouseButtonReleasedEvent event(button);
+						data.EventCallback(event);
+						break;
+					}
+				}
+			});
+
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos)
+			{
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window); // get window data from user pointer
+
+				MouseMovedEvent event((float)xpos, (float)ypos);
+				data.EventCallback(event);
+			});
+
+		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset)
+			{
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window); // get window data from user pointer
+
+				MouseScrolledEvent event((float)xoffset, (float)yoffset);
+				data.EventCallback(event);
+			});
 	}
 
 	WindowsWindow::~WindowsWindow()

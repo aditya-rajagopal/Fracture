@@ -6,13 +6,29 @@
 
 namespace Fracture {
 
+	#define FRACTURE_BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
+
 	Application::Application()
 	{
 		m_Window = std::unique_ptr<Window>(Window::Create()); // we cant use make_unique because we want to use the Create function
+		m_Window->SetEventCallback(FRACTURE_BIND_EVENT_FN(Application::OnEvent));
 	}
 
 	Application::~Application()
 	{
+	}
+
+	bool Application::OnWindowClose(WindowCloseEvent& e)
+	{
+		m_Running = false;
+		return true;
+	}
+
+	void Application::OnEvent(Event& e)
+	{
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<WindowCloseEvent>(FRACTURE_BIND_EVENT_FN(Application::OnWindowClose));
+		FR_CORE_INFO("{0}", e);
 	}
 
 	void Application::Run()
@@ -27,5 +43,6 @@ namespace Fracture {
 		}
 		//FR_END_PROFILE_SESSION();
 	}
+
 
 }
