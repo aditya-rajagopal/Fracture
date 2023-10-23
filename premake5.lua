@@ -13,8 +13,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to root folder
 IncludeDir = {}
 IncludeDir["GLFW"] = "Fracture/vendor/GLFW/include"
+IncludeDir["glad"] = "Fracture/vendor/glad/include"
 
 include "Fracture/vendor/GLFW"
+include "Fracture/vendor/glad"
 
 project "Fracture"
     location "Fracture"
@@ -38,12 +40,14 @@ project "Fracture"
     {
         "%{prj.name}/src",
         "%{prj.name}/vendor/spdlog/include",
-        "%{IncludeDir.GLFW}"
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.glad}"
     }
 
     links
     {
         "GLFW",
+        "glad",
         "opengl32.lib",
         "dwmapi.lib"
     }
@@ -55,7 +59,8 @@ project "Fracture"
         defines
         {
             "FR_PLATFORM_WINDOWS",
-            "FR_BUILD_DLL"
+            "FR_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
         }
 
         postbuildcommands

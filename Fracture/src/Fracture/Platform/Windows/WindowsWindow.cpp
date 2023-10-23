@@ -5,6 +5,8 @@
 #include "Fracture\Events\KeyEvent.h"
 #include "Fracture\Events\MouseEvent.h"
 
+#include <glad\glad.h>
+
 
 namespace Fracture {
 
@@ -43,6 +45,9 @@ namespace Fracture {
 
 		m_Window = glfwCreateWindow((int)m_Data.Width, (int)m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window); // set current context to this window. This means that all future OpenGL calls will affect this window and its context.
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress); // load all OpenGL function pointers with GLAD. This is done after we've created a valid OpenGL context, which we do with glfwMakeContextCurrent.
+		FR_CORE_ASSERT(status, "Failed to initialize Glad!");
+
 		// in glfw we can provide a pointer to some user-defined data with glfwSetWindowUserPointer. We can use this to store a pointer to our WindowData struct.
 		// This can be later retrieved with glfwGetWindowUserPointer. This is useful for example when we want to access the window data from within a GLFW callback function.
 		glfwSetWindowUserPointer(m_Window, &m_Data);
