@@ -17,7 +17,7 @@ namespace Fracture {
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseMovedEvent: Position" << m_MouseX << ", " << m_MouseY << ")";
+			ss << "MouseMovedEvent: Position (" << m_MouseX << ", " << m_MouseY << ")";
 			return ss.str();
 		}
 

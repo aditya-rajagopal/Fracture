@@ -84,6 +84,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -110,6 +111,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -137,6 +139,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -160,6 +163,8 @@
     <ClInclude Include="src\Fracture\Events\Event.h" />
     <ClInclude Include="src\Fracture\Events\KeyEvent.h" />
     <ClInclude Include="src\Fracture\Events\MouseEvent.h" />
+    <ClInclude Include="src\Fracture\Layer.h" />
+    <ClInclude Include="src\Fracture\LayerStack.h" />
     <ClInclude Include="src\Fracture\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Fracture\Utils\Instrumentation.h" />
     <ClInclude Include="src\Fracture\Utils\Log.h" />
@@ -168,6 +173,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Fracture\Application.cpp" />
+    <ClCompile Include="src\Fracture\Layer.cpp" />
+    <ClCompile Include="src\Fracture\LayerStack.cpp" />
     <ClCompile Include="src\Fracture\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Fracture\Utils\Log.cpp" />
     <ClCompile Include="src\frpch.cpp">

@@ -45,7 +45,7 @@ namespace Fracture {
 		{
 		}
 
-		void BeginSession(const std::string& name, const std::string& filepath = "/Logs/results.json")
+		void BeginSession(const std::string& name, const std::string& filepath = "../Logs/results.json")
 		{
 			m_OutputStream.open(filepath);
 			WriteHeader();

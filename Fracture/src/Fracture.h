@@ -8,8 +8,14 @@
 
 // For use by Fracture applications
 #include "Fracture\Application.h"
-#include "Fracture\Events\Event.h"
+#include "Fracture\Layer.h"
 
-// ---Entry Point-----------------
+// --- Events ----------------------	
+#include "Fracture\Events\Event.h"
+#include "Fracture\Events\ApplicationEvent.h"
+#include "Fracture\Events\KeyEvent.h"
+#include "Fracture\Events\MouseEvent.h"
+
+// --- Entry Point -----------------
 #include "Fracture\EntryPoint.h"
 

@@ -40,6 +40,12 @@
     <ClInclude Include="src\Fracture\Events\MouseEvent.h">
       <Filter>Fracture\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Fracture\Layer.h">
+      <Filter>Fracture</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fracture\LayerStack.h">
+      <Filter>Fracture</Filter>
+    </ClInclude>
     <ClInclude Include="src\Fracture\Platform\Windows\WindowsWindow.h">
       <Filter>Fracture\Platform\Windows</Filter>
     </ClInclude>
@@ -56,6 +62,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Fracture\Application.cpp">
+      <Filter>Fracture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Fracture\Layer.cpp">
+      <Filter>Fracture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Fracture\LayerStack.cpp">
       <Filter>Fracture</Filter>
     </ClCompile>
     <ClCompile Include="src\Fracture\Platform\Windows\WindowsWindow.cpp">

@@ -18,28 +18,78 @@ namespace Fracture {
 	{
 	}
 
+	void Application::PushLayer(Layer* layer)
+	{
+		m_LayerStack.PushLayer(layer);
+	}
+
+	void Application::PushOverlay(Layer* layer)
+	{
+		m_LayerStack.PushOverlay(layer);
+	}
+
 	bool Application::OnWindowClose(WindowCloseEvent& e)
 	{
 		m_Running = false;
 		return true;
 	}
 
-	void Application::OnEvent(Event& e)
+	void Application::OnEvent(Event& event)
 	{
-		EventDispatcher dispatcher(e);
+		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(FRACTURE_BIND_EVENT_FN(Application::OnWindowClose));
-		FR_CORE_INFO("{0}", e);
+		FR_CORE_INFO("{0}", event);
+
+		//for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
+		//{
+		//	(*--it)->OnEvent(e); // here we do (*--it) because we want to call the OnEvent function of the layer and not the iterator. The -- is needed because the end iterator is not valid we need 1 before that.
+		//	if (e.Handled) // if the event is handled we break the loop because the layer that set handled=true is a blocking layer
+		//	{
+		//		break;
+		//	}
+		//}
+
+		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
+		{
+			(*--it)->OnEvent(event);
+			if (event.Handled)
+				break;
+		}
 	}
 
 	void Application::Run()
 	{
-		//FR_BEGIN_PROFILE_SESSION("Application::Run", "FractureProfile-Runtime.json");
+		//FR_BEGIN_PROFILE_SESSION("Runtime", "../Logs/FractureProfile-Runtime.json");
 		while (m_Running)
 		{
-			glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // debug clear color
-			glClear(GL_COLOR_BUFFER_BIT);
-			// Call the OnUpdate function of the window
-			m_Window->OnUpdate();
+			static uint32_t frameCount = 0;
+
+			//std::string profile_name = "Fracture::Application::Run() Frame " + std::to_string(frameCount);
+			// TODO : The scops are not working correctly.
+			//FR_PROFILE_SCOPE(profile_name.c_str());
+
+			{
+				//FR_PROFILE_SCOPE("Rendering Colour");
+				glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // debug clear color
+				glClear(GL_COLOR_BUFFER_BIT);
+			}
+
+			{
+				//FR_PROFILE_SCOPE("LayerStack::OnUpdate");
+				// Call the OnUpdate function of all the layers
+				for (Layer* layer : m_LayerStack)
+				{
+					layer->OnUpdate();
+				}
+			}
+
+			{
+				//FR_PROFILE_SCOPE("Window::OnUpdate");
+				// Call the OnUpdate function of the window
+				m_Window->OnUpdate();
+			}
+
+			frameCount++;
 		}
 		//FR_END_PROFILE_SESSION();
 	}
