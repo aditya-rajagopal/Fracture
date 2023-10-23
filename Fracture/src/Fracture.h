@@ -7,8 +7,10 @@
 #include "Fracture\Utils\Instrumentation.h"
 
 // For use by Fracture applications
-#include "Fracture\Application.h"
-#include "Fracture\Layer.h"
+#include "Fracture\Core\Application.h"
+#include "Fracture\Core\Layer.h"
+
+#include "Fracture\ImGui\ImGuiLayer.h"
 
 // --- Events ----------------------	
 #include "Fracture\Events\Event.h"

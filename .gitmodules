@@ -4,3 +4,6 @@
 [submodule "Fracture/vendor/GLFW"]
 	path = Fracture/vendor/GLFW
 	url = https://github.com/TheCherno/GLFW
+[submodule "Fracture/vendor/imgui"]
+	path = Fracture/vendor/imgui
+	url = https://github.com/aditya-rajagopal/imgui

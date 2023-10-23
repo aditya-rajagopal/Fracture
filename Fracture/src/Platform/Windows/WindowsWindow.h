@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Fracture/Window.h"
+#include "Fracture/Core/Window.h"
 #include <GLFW/glfw3.h>
 
 

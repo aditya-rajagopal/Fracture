@@ -1,7 +1,7 @@
 #pragma once
 
 #include "frpch.h"
-#include "Fracture\Core.h"
+#include "Fracture\Core\Core.h"
 #include "Layer.h"
 
 

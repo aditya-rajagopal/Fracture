@@ -8,7 +8,7 @@
 #include "Fracture\Events\MouseEvent.h"
 #include "Fracture\Events\KeyEvent.h"
 
-#include "Fracture\LayerStack.h"
+#include "Fracture\Core\LayerStack.h"
 
 
 namespace Fracture {
@@ -24,6 +24,10 @@ namespace Fracture {
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
+
+		inline Window& GetWindow() { return *m_Window; } // this is a reference to the window object that we created in the application class.
+
+		inline static Application& Get() { return *s_Instance; } // this is a static function that returns the application class. This is used to get the application class from anywhere in the program.
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 	private:
@@ -31,6 +35,8 @@ namespace Fracture {
 		bool m_Running = true; // this is a boolean that will be used to determine if the application is running or not.
 		
 		LayerStack m_LayerStack;
+	private:
+		static Application* s_Instance; // this is a static pointer to the application class. This is used to get the application class from anywhere in the program.
 	};
 
 	// To be defined in CLIENT

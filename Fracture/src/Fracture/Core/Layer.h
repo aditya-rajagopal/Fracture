@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Fracture\Core.h"
+#include "Fracture\Core\Core.h"
 #include "Fracture\Events\Event.h"
 
 namespace Fracture

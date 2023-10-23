@@ -4,26 +4,44 @@
     <Filter Include="Fracture">
       <UniqueIdentifier>{2109A846-0DD6-0252-36EF-F0F9221B38E0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fracture\Core">
+      <UniqueIdentifier>{190A89FE-85CA-0435-4E05-4EB2BA844911}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Fracture\Events">
       <UniqueIdentifier>{E50516CA-5191-838E-5AA2-0683C6ACDF8E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fracture\Platform">
-      <UniqueIdentifier>{951ACDC3-0131-CB59-4AA8-567BB6FD9BE1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fracture\Platform\Windows">
-      <UniqueIdentifier>{CF89C236-3B4C-F6C0-84FC-844DF0FDCE9E}</UniqueIdentifier>
+    <Filter Include="Fracture\ImGui">
+      <UniqueIdentifier>{0B1315D0-F7E0-08D6-E074-79FCCCE1E43A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Fracture\Utils">
       <UniqueIdentifier>{419FF2D0-2D6D-E6D6-1601-57FD026EC23B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\OpenGL">
+      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Fracture.h" />
-    <ClInclude Include="src\Fracture\Application.h">
-      <Filter>Fracture</Filter>
+    <ClInclude Include="src\Fracture\Core\Application.h">
+      <Filter>Fracture\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Fracture\Core.h">
-      <Filter>Fracture</Filter>
+    <ClInclude Include="src\Fracture\Core\Core.h">
+      <Filter>Fracture\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fracture\Core\Layer.h">
+      <Filter>Fracture\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fracture\Core\LayerStack.h">
+      <Filter>Fracture\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fracture\Core\Window.h">
+      <Filter>Fracture\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Fracture\EntryPoint.h">
       <Filter>Fracture</Filter>
@@ -40,14 +58,8 @@
     <ClInclude Include="src\Fracture\Events\MouseEvent.h">
       <Filter>Fracture\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Fracture\Layer.h">
-      <Filter>Fracture</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Fracture\LayerStack.h">
-      <Filter>Fracture</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Fracture\Platform\Windows\WindowsWindow.h">
-      <Filter>Fracture\Platform\Windows</Filter>
+    <ClInclude Include="src\Fracture\ImGui\ImGuiLayer.h">
+      <Filter>Fracture\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="src\Fracture\Utils\Instrumentation.h">
       <Filter>Fracture\Utils</Filter>
@@ -55,26 +67,35 @@
     <ClInclude Include="src\Fracture\Utils\Log.h">
       <Filter>Fracture\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\Fracture\Window.h">
-      <Filter>Fracture</Filter>
+    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\frpch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Fracture\Application.cpp">
-      <Filter>Fracture</Filter>
+    <ClCompile Include="src\Fracture\Core\Application.cpp">
+      <Filter>Fracture\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Fracture\Layer.cpp">
-      <Filter>Fracture</Filter>
+    <ClCompile Include="src\Fracture\Core\Layer.cpp">
+      <Filter>Fracture\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Fracture\LayerStack.cpp">
-      <Filter>Fracture</Filter>
+    <ClCompile Include="src\Fracture\Core\LayerStack.cpp">
+      <Filter>Fracture\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Fracture\Platform\Windows\WindowsWindow.cpp">
-      <Filter>Fracture\Platform\Windows</Filter>
+    <ClCompile Include="src\Fracture\ImGui\ImGuiLayer.cpp">
+      <Filter>Fracture\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Fracture\Utils\Log.cpp">
       <Filter>Fracture\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
+      <Filter>Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\frpch.cpp" />
   </ItemGroup>
