@@ -24,3 +24,5 @@
 #endif
 
 #define BIT(x) (1 << x) // This is a bit shift operator. It shifts the bit 1 to the left x times. So BIT(0) = 00000001, BIT(1) = 00000010, BIT(2) = 00000100, etc.
+
+#define FRACTURE_BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)

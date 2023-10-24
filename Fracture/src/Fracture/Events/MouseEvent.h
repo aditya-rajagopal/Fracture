@@ -56,19 +56,21 @@ namespace Fracture {
 	// Similar to KeyEvent, we have a base class for mouse button events and then we have child classes for the specific events
 	public:
 		inline int GetMouseButton() const { return m_Button; } // Getter for the mouse button
+		inline int GetMouseMod() const { return m_Mods; } // Getter for the mods
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
-		MouseButtonEvent(int button) // Constructor
-			: m_Button(button) {}
+		MouseButtonEvent(int button, int mods) // Constructor
+			: m_Button(button), m_Mods(mods) {}
 		int m_Button; // The mouse button
+		int m_Mods;
 	};
 
 	class FRACTURE_API MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(int button) // Constructor
-			: MouseButtonEvent(button) {}
+		MouseButtonPressedEvent(int button, int mods) // Constructor
+			: MouseButtonEvent(button, mods) {}
 
 		std::string ToString() const override
 		{
@@ -83,8 +85,8 @@ namespace Fracture {
 	class FRACTURE_API MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(int button) // Constructor
-			: MouseButtonEvent(button) {}
+		MouseButtonReleasedEvent(int button, int mods) // Constructor
+			: MouseButtonEvent(button, mods) {}
 
 		std::string ToString() const override
 		{

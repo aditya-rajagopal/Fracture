@@ -16,9 +16,13 @@ IncludeDir["GLFW"] = "Fracture/vendor/GLFW/include"
 IncludeDir["glad"] = "Fracture/vendor/glad/include"
 IncludeDir["ImGui"] = "Fracture/vendor/imgui/"
 
-include "Fracture/vendor/GLFW"
-include "Fracture/vendor/glad"
-include "Fracture/vendor/imgui"
+startproject "Sandbox"
+
+group "Dependencies"
+    include "Fracture/vendor/GLFW"
+    include "Fracture/vendor/glad"
+    include "Fracture/vendor/imgui"
+group ""
 
 project "Fracture"
     location "Fracture"
@@ -68,23 +72,24 @@ project "Fracture"
         }
 
         postbuildcommands
-        {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-        }
+		{
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
+		}
+
     
     filter "configurations:Debug"
         defines "FR_DEBUG"
-        buildoptions "/MDd"
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
         defines "FR_RELEASE"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
     filter "configurations:Dist"
         defines "FR_DIST"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
 project "Sandbox"
@@ -115,7 +120,6 @@ project "Sandbox"
 
     filter "system:windows"
         cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
 
         defines
@@ -125,15 +129,15 @@ project "Sandbox"
     
     filter "configurations:Debug"
         defines "FR_DEBUG"
-        buildoptions "/MDd"
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
         defines "FR_RELEASE"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
     filter "configurations:Dist"
         defines "FR_DIST"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"

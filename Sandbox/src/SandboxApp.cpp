@@ -11,12 +11,11 @@ public:
 
 	void OnUpdate() override
 	{
-		FR_INFO("ExampleLayer::Update");
 	}
 
 	void OnEvent(Fracture::Event& event) override
 	{
-		FR_TRACE("{0}", event);
+		//FR_TRACE("{0}", event);
 	}
 };
 

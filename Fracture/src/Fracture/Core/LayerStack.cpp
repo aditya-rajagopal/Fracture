@@ -12,32 +12,36 @@ namespace Fracture {
 	{
 	}
 
-	void LayerStack::PushLayer(Layer* Layer)
+	void LayerStack::PushLayer(Layer* layer)
 	{
-		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, Layer);
+		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
 		m_LayerInsertIndex++;
+		layer->OnAttach();
 	}
 
-	void LayerStack::PushOverlay(Layer* Layer)
+	void LayerStack::PushOverlay(Layer* layer)
 	{
-		m_Layers.emplace_back(Layer);
+		m_Layers.emplace_back(layer);
+		layer->OnAttach();
 	}
 
-	void LayerStack::PopLayer(Layer* Layer)
+	void LayerStack::PopLayer(Layer* layer)
 	{
-		auto it = std::find(m_Layers.begin(), m_Layers.end(), Layer);
+		auto it = std::find(m_Layers.begin(), m_Layers.end(), layer);
 		if (it != m_Layers.end())
 		{
+			layer->OnDetach();
 			m_Layers.erase(it);
 			m_LayerInsertIndex--;
 		}
 	}
 
-	void LayerStack::PopOverlay(Layer* Layer)
+	void LayerStack::PopOverlay(Layer* layer)
 	{
-		auto it = std::find(m_Layers.begin(), m_Layers.end(), Layer);
+		auto it = std::find(m_Layers.begin(), m_Layers.end(), layer);
 		if (it != m_Layers.end())
 		{
+			layer->OnDetach();
 			m_Layers.erase(it);
 		}
 	}
