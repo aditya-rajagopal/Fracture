@@ -40,22 +40,14 @@ namespace Fracture {
 	{
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(FRACTURE_BIND_EVENT_FN(Application::OnWindowClose));
-		FR_CORE_INFO("{0}", event);
 
-		//for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
-		//{
-		//	(*--it)->OnEvent(e); // here we do (*--it) because we want to call the OnEvent function of the layer and not the iterator. The -- is needed because the end iterator is not valid we need 1 before that.
-		//	if (e.Handled) // if the event is handled we break the loop because the layer that set handled=true is a blocking layer
-		//	{
-		//		break;
-		//	}
-		//}
-
-		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
+		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
-			(*--it)->OnEvent(event);
-			if (event.Handled)
+			(*--it)->OnEvent(event); // here we do (*--it) because we want to call the OnEvent function of the layer and not the iterator. The -- is needed because the end iterator is not valid we need 1 before that.
+			if (event.Handled) // if the event is handled we break the loop because the layer that set handled=true is a blocking layer
+			{
 				break;
+			}
 		}
 	}
 

@@ -10,6 +10,11 @@
 #include "Fracture\Core\Application.h"
 #include "Fracture\Core\Layer.h"
 
+// --- Input ----------------------
+#include "Fracture\Input\Input.h"
+#include "Fracture\Input\KeyCodes.h"
+#include "Fracture\Input\MouseButtonCodes.h"
+
 #include "Fracture\ImGui\ImGuiLayer.h"
 
 // --- Events ----------------------	

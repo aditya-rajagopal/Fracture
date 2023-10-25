@@ -11,6 +11,11 @@ public:
 
 	void OnUpdate() override
 	{
+		/*auto[x, y] = Fracture::Input::GetMousePosition();
+		FR_TRACE("Mouse Pos {0}, {1}", x, y);*/
+
+		if (Fracture::Input::IsKeyPressed(FR_KEY_TAB))
+			FR_TRACE("Tab key is pressed (poll)!");
 	}
 
 	void OnEvent(Fracture::Event& event) override

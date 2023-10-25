@@ -39,6 +39,10 @@ namespace Fracture {
 		virtual bool IsVSync() const = 0;
 
 		static Window* Create(const WindowProperties& properties = WindowProperties());
+		
+
+		// The reason we return a void pointer is this could technically be any window not necessarily a GLFW window.
+		virtual void* GetNativeWindow() const = 0; // this is a function that will return a void pointer to the window object. This is used to get the window object from anywhere in the program.
 	};
 
 }
