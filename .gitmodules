@@ -7,3 +7,6 @@
 [submodule "Fracture/vendor/imgui"]
 	path = Fracture/vendor/imgui
 	url = https://github.com/aditya-rajagopal/imgui
+[submodule "Fracture/vendor/glm"]
+	path = Fracture/vendor/glm
+	url = https://github.com/g-truc/glm
