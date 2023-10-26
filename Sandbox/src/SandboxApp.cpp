@@ -22,6 +22,13 @@ public:
 	{
 		//FR_TRACE("{0}", event);
 	}
+
+	void OnImGuiRender() override
+	{
+		ImGui::Begin("Test Window");
+		ImGui::Text("Hello World");
+		ImGui::End();
+	}
 };
 
 class Sandbox : public Fracture::Application

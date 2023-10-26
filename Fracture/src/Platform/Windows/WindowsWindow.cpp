@@ -5,7 +5,7 @@
 #include "Fracture\Events\KeyEvent.h"
 #include "Fracture\Events\MouseEvent.h"
 
-#include <glad\glad.h>
+#include "Platform\OpenGL\OpenGLContext.h"
 
 
 namespace Fracture {
@@ -35,6 +35,7 @@ namespace Fracture {
 
 		FR_CORE_INFO("Creating window OpenGL: {0} ({1}, {2})", m_Data.Title, m_Data.Width, m_Data.Height);
 
+
 		if (!s_GLFWInitialized)
 		{
 			int success = glfwInit();
@@ -44,9 +45,9 @@ namespace Fracture {
 		}
 
 		m_Window = glfwCreateWindow((int)m_Data.Width, (int)m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window); // set current context to this window. This means that all future OpenGL calls will affect this window and its context.
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress); // load all OpenGL function pointers with GLAD. This is done after we've created a valid OpenGL context, which we do with glfwMakeContextCurrent.
-		FR_CORE_ASSERT(status, "Failed to initialize Glad!");
+
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init(); // initialize the graphics context. This will load all OpenGL function pointers via GLAD. We pass glfwGetProcAddress to gladLoadGLLoader to load the OpenGL function pointers that are unique to the current context (in this case the GLFW window we just created).
 
 		// in glfw we can provide a pointer to some user-defined data with glfwSetWindowUserPointer. We can use this to store a pointer to our WindowData struct.
 		// This can be later retrieved with glfwGetWindowUserPointer. This is useful for example when we want to access the window data from within a GLFW callback function.
@@ -154,7 +155,7 @@ namespace Fracture {
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents(); // checks if any events are triggered (like keyboard input or mouse movement events), updates the window state, and calls the corresponding functions (which we can set via callback methods)
-		glfwSwapBuffers(m_Window); // swap the color buffer (a large buffer that contains color values for each pixel in GLFW's window) that is used to render to during this render iteration and show it as output to the screen.
+		m_Context->SwapBuffers(); // swap the color buffer (a large buffer that contains color values for each pixel in GLFW's window) that is used to render to during this render iteration and show it as output to the screen.
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)

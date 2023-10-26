@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Fracture/Core/Window.h"
-#include <GLFW/glfw3.h>
+#include "Fracture/Renderer/GraphicsContext.h"
 
+#include <GLFW/glfw3.h>
 
 namespace Fracture {
 
@@ -27,6 +28,7 @@ namespace Fracture {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{

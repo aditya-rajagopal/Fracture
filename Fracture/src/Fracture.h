@@ -9,13 +9,12 @@
 // For use by Fracture applications
 #include "Fracture\Core\Application.h"
 #include "Fracture\Core\Layer.h"
+#include "imgui/imgui.h"
 
 // --- Input ----------------------
 #include "Fracture\Input\Input.h"
 #include "Fracture\Input\KeyCodes.h"
 #include "Fracture\Input\MouseButtonCodes.h"
-
-#include "Fracture\ImGui\ImGuiLayer.h"
 
 // --- Events ----------------------	
 #include "Fracture\Events\Event.h"
