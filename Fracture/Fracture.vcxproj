@@ -599,6 +599,7 @@
     <ClCompile Include="src\Fracture\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Fracture\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Fracture\Utils\Log.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\frpch.cpp">

@@ -24,8 +24,6 @@ namespace Fracture {
 		glGenVertexArrays(1, &m_VertexArray); // generate a vertex array object and store its unique ID in m_VertexArray
 		glBindVertexArray(m_VertexArray); // bind the vertex array object to the OpenGL context. This means that all subsequent OpenGL calls will affect the vertex array object we just created.
 
-		
-
 		// Vertex Buffer
 
 		// We define a triangle in normalized device coordinates (NDC). NDC is a 3D coordinate system that is normalized so that the visible display area is mapped to [-1, 1] on all 3 axes. 
@@ -54,7 +52,6 @@ namespace Fracture {
 		uint32_t indices[3] = { 0, 1, 2 }; // the indices of the vertices that make up the triangle. As mentioned above we draw the triangle by drawing 3 vertices in counter-clockwise order. The indices are used to specify the order in which the vertices should be drawn.
 		
 		m_IndexBuffer.reset(IndexBuffer::Create(indices, 3));
-		// the index buffer does not need a attribute array. It is only used to specify the order in which the vertices should be drawn. This means that we don't need to call glEnableVertexAttribArray and glVertexAttribPointer.
 
 		// Read our shaders into the appropriate buffers
 		std::string vertexSource = R"(
@@ -81,7 +78,7 @@ namespace Fracture {
 			}
 		)";// Get source code for fragment shader.
 
-		m_Shader  = std::make_unique<Shader>(vertexSource, fragmentSource); // create a shader object from the vertex and fragment shader source code.
+		m_Shader.reset(Shader::Create(vertexSource, fragmentSource)); // create a shader object from the vertex and fragment shader source code.
 		
 	}
 
