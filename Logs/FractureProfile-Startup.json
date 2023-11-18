@@ -1,1 +1,1 @@
-{"otherData": {},"traceEvents":[{"cat":"function","dur":137,"name":"Log Init","ph":"X","pid":0,"tid":910447211,"ts":307576106850}]}
+{"otherData": {},"traceEvents":[{"cat":"function","dur":104,"name":"Log Init","ph":"X","pid":0,"tid":3269090213,"ts":312029210501}]}

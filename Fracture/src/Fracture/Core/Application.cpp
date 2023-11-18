@@ -10,6 +10,27 @@ namespace Fracture {
 
 	Application* Application::s_Instance = nullptr;
 
+	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+	{
+		switch (type)
+		{
+			case ShaderDataType::Float2: return		GL_FLOAT;
+			case ShaderDataType::Float: return		GL_FLOAT;
+			case ShaderDataType::Float3: return		GL_FLOAT;
+			case ShaderDataType::Float4: return		GL_FLOAT;
+			case ShaderDataType::Mat3: return		GL_FLOAT;
+			case ShaderDataType::Mat4: return		GL_FLOAT;
+			case ShaderDataType::Int: return		GL_INT;
+			case ShaderDataType::Int2: return		GL_INT;
+			case ShaderDataType::Int3: return		GL_INT;
+			case ShaderDataType::Int4: return		GL_INT;
+			case ShaderDataType::Bool: return		GL_BOOL;
+		}
+
+		FR_CORE_ASSERT(false, "Unknown ShaderDataType!");
+		return 0;
+	}
+
 	Application::Application()
 	{
 		FR_CORE_ASSERT(!s_Instance, "Application already exists!");
@@ -30,15 +51,40 @@ namespace Fracture {
 		// The center of the screen is mapped to (0, 0, 0). Any vertex that falls outside the visible region will be clipped.
 		// Here this triangle is defined in the XY plane with Z = 0. The vertices are defined in counter-clockwise order. This means that the triangle will be facing the camera if the camera is looking towards the -Z direction.
 		// the direction of the normal follows the right hand thumb rule. If you point your right thumb in the direction of the vertices (from vertex 1 to vertex 2) then the direction of the normal will be the direction of your curled fingers.
-		float vertices[3 * 3] = { -0.5f, -0.5f, 0.0f, // first vertex (left bottom)
-								   0.5f, -0.5f, 0.0f, // second vertex (right bottom)
-								   0.0f,  0.5f, 0.0f }; // third vertex (top center)
+		float vertices[3 * 7] = { -0.5f, -0.5f, 0.0f, 1.0, 0.0, 0.0, 0.0, // first vertex (left bottom) position, colour
+								   0.5f, -0.5f, 0.0f, 0.0, 1.0, 0.0, 0.0, // second vertex (right bottom) position, colour
+								   0.0f,  0.5f, 0.0f, 0.0, 0.0, 1.0, 0.0 }; // third vertex (top center) position, colour
 
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		{
+			// creating the layout in a scope so that it is destroyed after we set it in the vertex buffer
+			BufferLayout layout = {
+				{ ShaderDataType::Float3, "a_Position" },
+				{ ShaderDataType::Float4, "a_Colour"}
+			};
+			m_VertexBuffer->SetLayout(layout);
+		}
+
+		uint32_t i = 0;
+		const auto& layout = m_VertexBuffer->GetLayout();
+		for (const auto& element : layout)
+		{
+			FR_CORE_INFO("Layout element: {0}", element.Name);
+			glEnableVertexAttribArray(i);
+			glVertexAttribPointer(
+				i,
+				element.GetElementCount(),
+				ShaderDataTypeToOpenGLBaseType(element.Type),
+				element.Normalized,
+				layout.GetStride(),
+				(const void*)element.Offset
+			);
+			i++;
+		}
 
 		// openGL only sees the above data as a bunch of bytes. We need to tell openGL how it should interpret the vertex data before rendering. We do this by using glVertexAttribPointer.
-		glEnableVertexAttribArray(0); // This says we enable the attrib index 0
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr); // This says how the data is layed out in the buffer
+		//glEnableVertexAttribArray(0); // This says we enable the attrib index 0
+		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr); // This says how the data is layed out in the buffer
 																					// 0 is the index of the attribute we want to configure. In the previous line we enabled this index with glEnableVertexAttribArray.
 																					// 3 specifies the size of the vertex attribute. The vertex attribute is a vec3 so it is composed of 3 values.
 																					// GL_FLOAT specifies the type of the data.
@@ -57,24 +103,25 @@ namespace Fracture {
 		std::string vertexSource = R"(
 			#version 410 core
 			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec4 a_Colour;
 
-			out vec3 v_Position;
+			out vec4 v_Colour;
 
 			void main()
 			{
 				gl_Position = vec4(a_Position.x, a_Position.y, a_Position.z, 1.0);
-				v_Position = a_Position;
+				v_Colour = a_Colour;
 			}
 		)";// Get source code for vertex shader.
 		std::string fragmentSource = R"(
 			#version 410 core
 			layout(location = 0) out vec4 color;
 
-			in vec3 v_Position;
+			in vec4 v_Colour;
 
 			void main()
 			{
-				color = vec4(v_Position * 0.5 + 0.5, 1.0);
+				color = v_Colour;
 			}
 		)";// Get source code for fragment shader.
 
