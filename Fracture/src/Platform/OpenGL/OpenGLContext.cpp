@@ -28,6 +28,7 @@ namespace Fracture
 
 	void OpenGLContext::SwapBuffers()
 	{
+		FR_PROFILE_SCOPE("OpenGLContext::SwapBuffers");
 		glfwSwapBuffers(m_WindowHandle);
 	}
 

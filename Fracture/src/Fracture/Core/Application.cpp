@@ -4,6 +4,8 @@
 
 #include <glad/glad.h>
 
+#include "Fracture\Renderer\Shader.h"
+
 namespace Fracture {
 
 	Application* Application::s_Instance = nullptr;
@@ -58,6 +60,34 @@ namespace Fracture {
 		
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); // copy the index data into the buffer's memory by calling glBufferData with the index buffer object bound to GL_ELEMENT_ARRAY_BUFFER. We use GL_STATIC_DRAW because the index data will not change.
 		// the index buffer does not need a attribute array. It is only used to specify the order in which the vertices should be drawn. This means that we don't need to call glEnableVertexAttribArray and glVertexAttribPointer.
+
+		// Read our shaders into the appropriate buffers
+		std::string vertexSource = R"(
+			#version 410 core
+			layout(location = 0) in vec3 a_Position;
+
+			out vec3 v_Position;
+
+			void main()
+			{
+				gl_Position = vec4(a_Position.x, a_Position.y, a_Position.z, 1.0);
+				v_Position = a_Position;
+			}
+		)";// Get source code for vertex shader.
+		std::string fragmentSource = R"(
+			#version 410 core
+			layout(location = 0) out vec4 color;
+
+			in vec3 v_Position;
+
+			void main()
+			{
+				color = vec4(v_Position * 0.5 + 0.5, 1.0);
+			}
+		)";// Get source code for fragment shader.
+
+		m_Shader  = std::make_unique<Shader>(vertexSource, fragmentSource); // create a shader object from the vertex and fragment shader source code.
+		
 	}
 
 	Application::~Application()
@@ -97,20 +127,21 @@ namespace Fracture {
 
 	void Application::Run()
 	{
-		//FR_BEGIN_PROFILE_SESSION("Runtime", "../Logs/FractureProfile-Runtime.json");
+		FR_BEGIN_PROFILE_SESSION("Runtime", "../Logs/FractureProfile-Runtime.json");
 		while (m_Running)
 		{
 			static uint32_t frameCount = 0;
-
-			//std::string profile_name = "Fracture::Application::Run() Frame " + std::to_string(frameCount);
+			auto m_StartTimepoint = std::chrono::high_resolution_clock::now();
+			std::string profile_name = "Fracture::Application::Run() Frame " + std::to_string(frameCount);
 			// TODO : The scops are not working correctly.
-			//FR_PROFILE_SCOPE(profile_name.c_str());
+			FR_PROFILE_SCOPE(profile_name.c_str());
 
 			{ // Rendering
-				//FR_PROFILE_SCOPE("Rendering Colour");
+				FR_PROFILE_SCOPE("Rendering Colour");
 				glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // debug clear color
 				glClear(GL_COLOR_BUFFER_BIT);
 
+				m_Shader->Bind();
 				glBindVertexArray(m_VertexArray); // bind the vertex array object
 				glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr); // draw the triangle
 				// GL_TRIANGLES specifies the mode we want to draw in. Other modes include GL_POINTS and GL_LINES.
@@ -123,7 +154,7 @@ namespace Fracture {
 			}
 
 			{ // Layer updates
-				//FR_PROFILE_SCOPE("LayerStack::OnUpdate");
+				FR_PROFILE_SCOPE("LayerStack::OnUpdate");
 				// Call the OnUpdate function of all the layers
 				for (Layer* layer : m_LayerStack)
 				{
@@ -132,7 +163,7 @@ namespace Fracture {
 			}
 
 			{ // ImGui rendering
-				//FR_PROFILE_SCOPE("ImGuiLayer::Rendering");
+				FR_PROFILE_SCOPE("ImGuiLayer::Rendering");
 				m_ImGuiLayer->Begin();
 				for (Layer* layer : m_LayerStack)
 				{
@@ -142,14 +173,21 @@ namespace Fracture {
 			}
 
 			{ // Window updates
-				//FR_PROFILE_SCOPE("Window::OnUpdate");
+				FR_PROFILE_SCOPE("Window::OnUpdate");
 				// Call the OnUpdate function of the window
 				m_Window->OnUpdate();
 			}
 
+			auto endTimepoint = std::chrono::high_resolution_clock::now();
+
+			long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
+			long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
+
+			FR_CORE_INFO("Frame: {0} Frame time: {1}", frameCount, end - start);
+
 			frameCount++;
 		}
-		//FR_END_PROFILE_SESSION();
+		FR_END_PROFILE_SESSION();
 	}
 
 

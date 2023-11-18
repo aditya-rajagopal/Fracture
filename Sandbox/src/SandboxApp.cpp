@@ -25,6 +25,7 @@ public:
 
 	void OnImGuiRender() override
 	{
+		FR_PROFILE_SCOPE("Application::ImGuiLayer::OnImGuiRender");
 		ImGui::Begin("Test Window");
 		ImGui::Text("Hello World");
 		ImGui::End();

@@ -1361,6 +1361,8 @@
     </ClInclude>
     <ClInclude Include="src\Fracture\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Fracture\Renderer\Shader.h" />
+    <ClInclude Include="src\Fracture\Renderer\Buffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Fracture\Core\Application.cpp">
@@ -1391,5 +1393,7 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Fracture\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Fracture\Renderer\Buffer.cpp" />
   </ItemGroup>
 </Project>

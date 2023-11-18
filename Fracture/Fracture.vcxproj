@@ -143,6 +143,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Fracture\Renderer\Buffer.h" />
+    <ClInclude Include="src\Fracture\Renderer\Shader.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Fracture.h" />
     <ClInclude Include="src\Fracture\Core\Application.h" />
@@ -583,6 +585,8 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Fracture\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Fracture\Renderer\Shader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Fracture\Core\Application.cpp" />
     <ClCompile Include="src\Fracture\Core\Layer.cpp" />

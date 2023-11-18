@@ -154,7 +154,10 @@ namespace Fracture {
 
 	void WindowsWindow::OnUpdate()
 	{
-		glfwPollEvents(); // checks if any events are triggered (like keyboard input or mouse movement events), updates the window state, and calls the corresponding functions (which we can set via callback methods)
+		{
+			FR_PROFILE_SCOPE("WindowsWindow::OnUpdate::glfwPollEvents");
+			glfwPollEvents(); // checks if any events are triggered (like keyboard input or mouse movement events), updates the window state, and calls the corresponding functions (which we can set via callback methods)
+		}
 		m_Context->SwapBuffers(); // swap the color buffer (a large buffer that contains color values for each pixel in GLFW's window) that is used to render to during this render iteration and show it as output to the screen.
 	}
 
