@@ -144,7 +144,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Fracture\Renderer\Buffer.h" />
+    <ClInclude Include="src\Fracture\Renderer\Renderer.h" />
     <ClInclude Include="src\Fracture\Renderer\Shader.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Fracture.h" />
     <ClInclude Include="src\Fracture\Core\Application.h" />
@@ -164,6 +166,7 @@
     <ClInclude Include="src\Fracture\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Fracture\Utils\Instrumentation.h" />
     <ClInclude Include="src\Fracture\Utils\Log.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\frpch.h" />
@@ -586,7 +589,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Fracture\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Fracture\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Fracture\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Fracture\Core\Application.cpp" />
     <ClCompile Include="src\Fracture\Core\Layer.cpp" />

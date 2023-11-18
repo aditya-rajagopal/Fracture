@@ -24,9 +24,9 @@ namespace Fracture {
 		glGenVertexArrays(1, &m_VertexArray); // generate a vertex array object and store its unique ID in m_VertexArray
 		glBindVertexArray(m_VertexArray); // bind the vertex array object to the OpenGL context. This means that all subsequent OpenGL calls will affect the vertex array object we just created.
 
+		
+
 		// Vertex Buffer
-		glGenBuffers(1, &m_VertexBuffer); // generate a vertex buffer object and store its unique ID in m_VertexBuffer
-		glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer); // bind the vertex buffer object to the OpenGL context. This means that all subsequent OpenGL calls will affect the vertex buffer object we just created.
 
 		// We define a triangle in normalized device coordinates (NDC). NDC is a 3D coordinate system that is normalized so that the visible display area is mapped to [-1, 1] on all 3 axes. 
 		// The center of the screen is mapped to (0, 0, 0). Any vertex that falls outside the visible region will be clipped.
@@ -36,11 +36,7 @@ namespace Fracture {
 								   0.5f, -0.5f, 0.0f, // second vertex (right bottom)
 								   0.0f,  0.5f, 0.0f }; // third vertex (top center)
 
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);	// copy the vertex data into the buffer's memory by calling glBufferData with the vertex buffer object bound to GL_ARRAY_BUFFER. The fourth argument specifies how we want the graphics card to manage the given data. We have 3 options:
-																					// GL_STATIC_DRAW: the data will most likely not change at all or very rarely.
-																					// GL_DYNAMIC_DRAW: the data is likely to change a lot.
-																					// GL_STREAM_DRAW: the data will change every time it is drawn.
-																					// We want to draw the triangle only once, so we'll use GL_STATIC_DRAW.
+		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
 		// openGL only sees the above data as a bunch of bytes. We need to tell openGL how it should interpret the vertex data before rendering. We do this by using glVertexAttribPointer.
 		glEnableVertexAttribArray(0); // This says we enable the attrib index 0
@@ -54,11 +50,10 @@ namespace Fracture {
 
 
 		// Index Buffer
-		glGenBuffers(1, &m_IndexBuffer); // generate a index buffer object and store its unique ID in m_IndexBuffer
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer); // bind the index buffer object to the OpenGL context. This means that all subsequent OpenGL calls will affect the index buffer object we just created.
+		
 		uint32_t indices[3] = { 0, 1, 2 }; // the indices of the vertices that make up the triangle. As mentioned above we draw the triangle by drawing 3 vertices in counter-clockwise order. The indices are used to specify the order in which the vertices should be drawn.
 		
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); // copy the index data into the buffer's memory by calling glBufferData with the index buffer object bound to GL_ELEMENT_ARRAY_BUFFER. We use GL_STATIC_DRAW because the index data will not change.
+		m_IndexBuffer.reset(IndexBuffer::Create(indices, 3));
 		// the index buffer does not need a attribute array. It is only used to specify the order in which the vertices should be drawn. This means that we don't need to call glEnableVertexAttribArray and glVertexAttribPointer.
 
 		// Read our shaders into the appropriate buffers
@@ -143,7 +138,7 @@ namespace Fracture {
 
 				m_Shader->Bind();
 				glBindVertexArray(m_VertexArray); // bind the vertex array object
-				glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr); // draw the triangle
+				glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr); // draw the triangle
 				// GL_TRIANGLES specifies the mode we want to draw in. Other modes include GL_POINTS and GL_LINES.
 				// 3 specifies the number of indices we want to draw.
 				// GL_UNSIGNED_INT specifies the type of the indices.
