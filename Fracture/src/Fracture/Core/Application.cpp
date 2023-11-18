@@ -5,6 +5,8 @@
 #include <glad/glad.h>
 
 #include "Fracture\Renderer\Shader.h"
+#include "Fracture\Input\Input.h"
+#include "Fracture\Input\KeyCodes.h"
 
 namespace Fracture {
 
@@ -42,8 +44,7 @@ namespace Fracture {
 		PushOverlay(m_ImGuiLayer);
 
 		// Vertex Array
-		glGenVertexArrays(1, &m_VertexArray); // generate a vertex array object and store its unique ID in m_VertexArray
-		glBindVertexArray(m_VertexArray); // bind the vertex array object to the OpenGL context. This means that all subsequent OpenGL calls will affect the vertex array object we just created.
+		m_TriangleVertexArray.reset(VertexArray::Create()); // create a vertex array object (VAO)
 
 		// Vertex Buffer
 
@@ -54,7 +55,8 @@ namespace Fracture {
 		float vertices[3 * 7] = { -0.5f, -0.5f, 0.0f, 1.0, 0.0, 0.0, 0.0, // first vertex (left bottom) position, colour
 								   0.5f, -0.5f, 0.0f, 0.0, 1.0, 0.0, 0.0, // second vertex (right bottom) position, colour
 								   0.0f,  0.5f, 0.0f, 0.0, 0.0, 1.0, 0.0 }; // third vertex (top center) position, colour
-
+		
+		std::shared_ptr<VertexBuffer> m_VertexBuffer;
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 		{
 			// creating the layout in a scope so that it is destroyed after we set it in the vertex buffer
@@ -64,44 +66,45 @@ namespace Fracture {
 			};
 			m_VertexBuffer->SetLayout(layout);
 		}
-
-		uint32_t i = 0;
-		const auto& layout = m_VertexBuffer->GetLayout();
-		for (const auto& element : layout)
-		{
-			FR_CORE_INFO("Layout element: {0}", element.Name);
-			glEnableVertexAttribArray(i);
-			glVertexAttribPointer(
-				i,
-				element.GetElementCount(),
-				ShaderDataTypeToOpenGLBaseType(element.Type),
-				element.Normalized,
-				layout.GetStride(),
-				(const void*)element.Offset
-			);
-			i++;
-		}
-
-		// openGL only sees the above data as a bunch of bytes. We need to tell openGL how it should interpret the vertex data before rendering. We do this by using glVertexAttribPointer.
-		//glEnableVertexAttribArray(0); // This says we enable the attrib index 0
-		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr); // This says how the data is layed out in the buffer
-																					// 0 is the index of the attribute we want to configure. In the previous line we enabled this index with glEnableVertexAttribArray.
-																					// 3 specifies the size of the vertex attribute. The vertex attribute is a vec3 so it is composed of 3 values.
-																					// GL_FLOAT specifies the type of the data.
-																					// GL_FALSE specifies if we want the data to be normalized. If we set this to GL_TRUE all the data that has a value not between 0 (or -1 for signed data) and 1 will be mapped to those values. This is usually not desired but it can be useful when we store colors as unsigned chars (values between 0 and 255) and we want them to be floats between 0 and 1 (which we do).
-																					// 3 * sizeof(float) is the stride. It defines where the next vertex attribute would be 
-																					// nullptr is the offset of where the position data begins in the buffer. Since the position data is at the start of the data array this value is 0.
-
-
-		// Index Buffer
+		m_TriangleVertexArray->AddVertexBuffer(m_VertexBuffer);
 		
 		uint32_t indices[3] = { 0, 1, 2 }; // the indices of the vertices that make up the triangle. As mentioned above we draw the triangle by drawing 3 vertices in counter-clockwise order. The indices are used to specify the order in which the vertices should be drawn.
 		
+		std::shared_ptr<IndexBuffer> m_IndexBuffer;
 		m_IndexBuffer.reset(IndexBuffer::Create(indices, 3));
+		m_TriangleVertexArray->SetIndexBuffer(m_IndexBuffer);
+		m_TriangleVertexArray->Unbind();
+
+		m_SquareVertexArray.reset(VertexArray::Create()); // create a vertex array object for a square
+
+		float squareVertices[4 * 7] = { -0.75f, -0.75f, 0.0f, 0.0, 1.0, 1.0, 0.0,
+										0.75f, -0.75f, 0.0f, 1.0, 0.0, 1.0, 0.0,
+										0.75f,  0.75f, 0.0f, 1.0, 1.0, 1.0, 0.0,
+									   -0.75f,  0.75f, 0.0f, 1.0, 1.0, 0.0, 0.0 };
+
+		std::shared_ptr<VertexBuffer> m_SquareVertexBuffer;
+		m_SquareVertexBuffer.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		{
+			// creating the layout in a scope so that it is destroyed after we set it in the vertex buffer
+			BufferLayout layout = {
+				{ ShaderDataType::Float3, "a_Position" },
+				{ ShaderDataType::Float4, "a_Colour"}
+			};
+			m_SquareVertexBuffer->SetLayout(layout);
+		}
+		m_SquareVertexArray->AddVertexBuffer(m_SquareVertexBuffer);
+
+		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 }; // the indices of the vertices that make up the square. As mentioned above we draw the square by drawing 6 vertices in counter-clockwise order. The indices are used to specify the order in which the vertices should be drawn.
+
+		std::shared_ptr<IndexBuffer> m_SquareIndexBuffer;
+		m_SquareIndexBuffer.reset(IndexBuffer::Create(squareIndices, 6));
+		m_SquareVertexArray->SetIndexBuffer(m_SquareIndexBuffer);
+
+		m_SquareVertexArray->Unbind();
 
 		// Read our shaders into the appropriate buffers
 		std::string vertexSource = R"(
-			#version 410 core
+			#version 450 core
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Colour;
 
@@ -114,7 +117,7 @@ namespace Fracture {
 			}
 		)";// Get source code for vertex shader.
 		std::string fragmentSource = R"(
-			#version 410 core
+			#version 450 core
 			layout(location = 0) out vec4 color;
 
 			in vec4 v_Colour;
@@ -180,16 +183,26 @@ namespace Fracture {
 				glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // debug clear color
 				glClear(GL_COLOR_BUFFER_BIT);
 
-				m_Shader->Bind();
-				glBindVertexArray(m_VertexArray); // bind the vertex array object
-				glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr); // draw the triangle
-				// GL_TRIANGLES specifies the mode we want to draw in. Other modes include GL_POINTS and GL_LINES.
-				// 3 specifies the number of indices we want to draw.
-				// GL_UNSIGNED_INT specifies the type of the indices.
-				// nullptr is the offset of where the index data begins in the buffer. Since the index data is at the start of the data array this value is 0.
 
-				// we dont need to provide a pointer because we are using the indexbuffer that we bound earlier attached to m_vertexArray. This means that OpenGL already knows where the index buffer is.
-				// This is because we bound the index buffer to the vertex array object. This also means that we don't need to bind the index buffer every time we want to draw something. As long as we have the vertex array object bound we can just call glDrawElements and OpenGL will know which index buffer to use.
+				if (!Input::IsKeyPressed(FR_KEY_TAB))
+				{
+					m_Shader->Bind();
+					m_TriangleVertexArray->Bind();
+					glDrawElements(GL_TRIANGLES, m_TriangleVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr); // draw the triangle
+					// GL_TRIANGLES specifies the mode we want to draw in. Other modes include GL_POINTS and GL_LINES.
+					// 3 specifies the number of indices we want to draw.
+					// GL_UNSIGNED_INT specifies the type of the indices.
+					// nullptr is the offset of where the index data begins in the buffer. Since the index data is at the start of the data array this value is 0.
+
+					// we dont need to provide a pointer because we are using the indexbuffer that we bound earlier attached to m_vertexArray. This means that OpenGL already knows where the index buffer is.
+					// This is because we bound the index buffer to the vertex array object. This also means that we don't need to bind the index buffer every time we want to draw something. As long as we have the vertex array object bound we can just call glDrawElements and OpenGL will know which index buffer to use.
+				}
+				else 
+				{
+					m_Shader->Bind();
+					m_SquareVertexArray->Bind();
+					glDrawElements(GL_TRIANGLES, m_SquareVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr); // draw the square
+				}
 			}
 
 			{ // Layer updates

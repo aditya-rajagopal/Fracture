@@ -13,6 +13,7 @@
 
 #include "Fracture\Renderer\Shader.h"
 #include "Fracture\Renderer\Buffer.h"
+#include "Fracture\Renderer\VertexArray.h"
 
 namespace Fracture {
 
@@ -38,10 +39,9 @@ namespace Fracture {
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true; // this is a boolean that will be used to determine if the application is running or not.
 
-		uint32_t m_VertexArray;
-		std::unique_ptr<Shader> m_Shader;
-		std::unique_ptr<VertexBuffer> m_VertexBuffer;
-		std::unique_ptr<IndexBuffer> m_IndexBuffer;
+		std::shared_ptr<VertexArray> m_TriangleVertexArray;
+		std::shared_ptr<VertexArray> m_SquareVertexArray;
+		std::shared_ptr<Shader> m_Shader;
 		LayerStack m_LayerStack;
 	private:
 		static Application* s_Instance; // this is a static pointer to the application class. This is used to get the application class from anywhere in the program.

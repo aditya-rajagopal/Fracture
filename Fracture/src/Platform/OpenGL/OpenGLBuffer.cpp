@@ -14,7 +14,7 @@ namespace Fracture {
 		m_RendererID(0)
 	{
 		glCreateBuffers(1, &m_RendererID);
-		Bind();
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 		SetData((void*)vertices, size);
 	}
 
@@ -52,7 +52,7 @@ namespace Fracture {
 		m_RendererID(0),  m_Count(count)
 	{
 		glCreateBuffers(1, &m_RendererID);
-		Bind();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 		SetData((void*)indices, count * sizeof(uint32_t));
 	}
 

@@ -143,6 +143,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Fracture\Renderer\Buffer.h" />
     <ClInclude Include="src\Fracture\Renderer\Renderer.h" />
     <ClInclude Include="src\Fracture\Renderer\Shader.h" />
@@ -586,8 +587,10 @@
     <ClInclude Include="vendor\glm\glm\vec3.hpp" />
     <ClInclude Include="vendor\glm\glm\vec4.hpp" />
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
+    <ClInclude Include="src\Fracture\Renderer\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Fracture\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Fracture\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Fracture\Renderer\Shader.cpp" />
@@ -605,6 +608,7 @@
     <ClCompile Include="src\frpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Fracture\Renderer\VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
