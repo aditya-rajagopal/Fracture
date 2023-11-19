@@ -3,5 +3,20 @@
 
 namespace Fracture
 {
-	RendererAPI Renderer::s_RendererAPI = RendererAPI::OpenGL;
+
+	void Renderer::BeginScene()
+	{
+	}
+
+	void Renderer::EndScene()
+	{
+	}
+
+	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader)
+	{
+		shader->Bind();
+		vertexArray->Bind();
+		RenderCommand::DrawIndexed(vertexArray->GetIndexBuffer()->GetCount());
+	}
+
 }

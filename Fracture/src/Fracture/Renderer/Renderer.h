@@ -1,19 +1,23 @@
 #pragma once
 
 #include "Fracture/Core/Core.h"
+#include "Fracture/Renderer/RenderCommand.h"
+#include "Fracture/Renderer/RendererAPI.h"
+
+#include "Fracture\Renderer\VertexArray.h"
+#include "Fracture\Renderer\Shader.h"
 
 namespace Fracture
 {
-	enum class RendererAPI
-	{
-		None = 0, OpenGL = 1
-	};
 
 	class Renderer
 	{
 	public:
-		inline static RendererAPI GetAPI() { return s_RendererAPI; }
-	private:
-		static RendererAPI s_RendererAPI;
+		static void BeginScene();
+		static void EndScene();
+
+		static void Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader);
+
+		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 	};
 }

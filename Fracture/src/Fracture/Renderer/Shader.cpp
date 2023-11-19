@@ -11,8 +11,8 @@ namespace Fracture
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::None:    FR_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
-		case RendererAPI::OpenGL:  return new OpenGLShader(vertex_source, fragment_source);
+		case RendererAPI::API::None:    FR_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
+		case RendererAPI::API::OpenGL:  return new OpenGLShader(vertex_source, fragment_source);
 		}
 
 		FR_CORE_ASSERT(false, "Unknown RendererAPI!");

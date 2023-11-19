@@ -39,9 +39,6 @@ namespace Fracture {
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true; // this is a boolean that will be used to determine if the application is running or not.
 
-		std::shared_ptr<VertexArray> m_TriangleVertexArray;
-		std::shared_ptr<VertexArray> m_SquareVertexArray;
-		std::shared_ptr<Shader> m_Shader;
 		LayerStack m_LayerStack;
 	private:
 		static Application* s_Instance; // this is a static pointer to the application class. This is used to get the application class from anywhere in the program.

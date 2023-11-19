@@ -22,6 +22,13 @@
 #include "Fracture\Events\KeyEvent.h"
 #include "Fracture\Events\MouseEvent.h"
 
+// --- Renderer ----------------------]
+#include "Fracture\Renderer\Renderer.h"
+#include "Fracture\Renderer\RenderCommand.h"
+#include "Fracture\Renderer\Shader.h"
+#include "Fracture\Renderer\Buffer.h"
+#include "Fracture\Renderer\VertexArray.h"
+
 // --- Entry Point -----------------
 #include "Fracture\EntryPoint.h"
 
