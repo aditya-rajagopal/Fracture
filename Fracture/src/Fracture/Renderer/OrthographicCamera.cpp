@@ -9,6 +9,12 @@ namespace Fracture {
 		isChanged = true;
 	}
 
+	OrthographicCamera::OrthographicCamera(float left, float right, float bottom, float top, float nearval, float farval):
+		m_ProjectionMatrix(glm::ortho(left, right, bottom, top, nearval, farval))
+	{
+		isChanged = true;
+	}
+
 	OrthographicCamera::~OrthographicCamera()
 	{
 	}

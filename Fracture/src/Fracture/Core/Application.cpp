@@ -73,6 +73,11 @@ namespace Fracture {
 			Timestep deltaTime = (startTime - m_LastFrameTime) / 1000.0f / 1000.0f;
 			m_LastFrameTime = startTime;
 
+			if(frameCount == 0)
+			{
+				deltaTime = 0.0000001f;
+			}
+
 			std::string profile_name = "Fracture::Application::Run() Frame " + std::to_string(frameCount);
 			// TODO : The scops are not working correctly.
 			FR_PROFILE_SCOPE(profile_name.c_str());
@@ -106,10 +111,10 @@ namespace Fracture {
 				m_Window->OnUpdate();
 			}
 
-			/*auto endTimepoint = std::chrono::high_resolution_clock::now();
-			m_LastFrameTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();*/
+			auto endTimepoint = std::chrono::high_resolution_clock::now();
+			long long endTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
 
-			//FR_CORE_INFO("Frame: {0} Frame time: {1}", frameCount, end - start);
+			//FR_CORE_INFO("Frame: {0} Frame time: {1}", frameCount, endTime - startTime);
 
 			frameCount++;
 		}

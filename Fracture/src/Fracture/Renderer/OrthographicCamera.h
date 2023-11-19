@@ -9,6 +9,7 @@ namespace Fracture {
 	{
 	public:
 		OrthographicCamera(float left, float right, float bottom, float top);
+		OrthographicCamera(float left, float right, float bottom, float top, float nearval, float farval);
 		~OrthographicCamera();
 
 		void SetProjection(float left, float right, float bottom, float top);
@@ -17,7 +18,7 @@ namespace Fracture {
 		const glm::mat4& GetViewMatrix() { return m_CameraTransform.GetTransformInverse(); }
 		const glm::mat4& GetViewProjectionMatrix()
 		{ 
-			if (isChanged)
+			if (isChanged || m_CameraTransform.isChanged)
 			{
 				m_ViewProjectionMatrix = m_ProjectionMatrix * m_CameraTransform.GetTransformInverse();
 				isChanged = false;
@@ -30,6 +31,8 @@ namespace Fracture {
 
 		float GetRotation() const { return m_CameraTransform.GetRotation().z; }
 		void SetRotation(float rotation) { m_CameraTransform.SetRotation({0.0, 0.0, rotation}); isChanged = true;}
+
+		void Zoom(float zoom) { m_CameraTransform.Scale({ zoom, zoom, zoom }); isChanged = true; }
 		
 		void Translate(const glm::vec3& translation) { m_CameraTransform.Translate(translation); isChanged = true; }
 		void Rotate(float rotation) { m_CameraTransform.Rotate({ 0.0, 0.0, rotation }); isChanged = true; }
