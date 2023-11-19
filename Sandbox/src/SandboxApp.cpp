@@ -7,7 +7,7 @@ class ExampleLayer : public Fracture::Layer
 {
 public:
 	ExampleLayer()
-		:Layer("Example")
+		:Layer("Example"), m_Camera(-1.6, 1.6, -0.9, 0.9)
 	{
 		m_TriangleVertexArray.reset(Fracture::VertexArray::Create());
 		float vertices[3 * 7] = { -0.5f, -0.5f, 0.0f, 1.0, 0.0, 0.0, 0.0, // first vertex (left bottom) position, colour
@@ -65,12 +65,14 @@ public:
 			#version 450 core
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Colour;
+			
+			uniform mat4 u_ViewProjection;
 
 			out vec4 v_Colour;
 
 			void main()
 			{
-				gl_Position = vec4(a_Position.x, a_Position.y, a_Position.z, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 				v_Colour = a_Colour;
 			}
 		)";// Get source code for vertex shader.
@@ -93,6 +95,22 @@ public:
 	void OnUpdate() override
 	{
 		FR_PROFILE_SCOPE("Application::ExampleLayer::OnUpdate");
+
+		if (Fracture::Input::IsKeyPressed(FR_KEY_LEFT))
+			m_Camera.Translate(cameraSpeed * glm::vec3(-1.0f, 0.0f, 0.0f));
+		else if (Fracture::Input::IsKeyPressed(FR_KEY_RIGHT))
+			m_Camera.Translate(cameraSpeed * glm::vec3(1.0f, 0.0f, 0.0f));
+		else if (Fracture::Input::IsKeyPressed(FR_KEY_UP))
+			m_Camera.Translate(cameraSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+		else if (Fracture::Input::IsKeyPressed(FR_KEY_DOWN))
+			m_Camera.Translate(cameraSpeed * glm::vec3(0.0f, -1.0f, 0.0f));
+
+		if (Fracture::Input::IsKeyPressed(FR_KEY_A))
+			m_Camera.Rotate(cameraSpeed * 10.0f);
+		else if (Fracture::Input::IsKeyPressed(FR_KEY_D))
+			m_Camera.Rotate(-cameraSpeed * 10.0f);
+
+		Fracture::Renderer::BeginScene(m_Camera);
 		Fracture::RenderCommand::SetClearColor({ 1.0f, 0.0f, 1.0f, 1.0f });
 		Fracture::RenderCommand::Clear();
 
@@ -105,6 +123,8 @@ public:
 		{
 			Fracture::Renderer::Submit(m_SquareVertexArray, m_Shader);
 		}
+
+		Fracture::Renderer::EndScene();
 	}
 
 	void OnEvent(Fracture::Event& event) override
@@ -123,6 +143,8 @@ private:
 	std::shared_ptr<Fracture::VertexArray> m_TriangleVertexArray;
 	std::shared_ptr<Fracture::VertexArray> m_SquareVertexArray;
 	std::shared_ptr<Fracture::Shader> m_Shader;
+	Fracture::OrthographicCamera m_Camera;
+	float cameraSpeed = 0.005f;
 };
 
 class Sandbox : public Fracture::Application

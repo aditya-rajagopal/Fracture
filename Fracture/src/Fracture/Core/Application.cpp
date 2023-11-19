@@ -65,7 +65,6 @@ namespace Fracture {
 		FR_BEGIN_PROFILE_SESSION("Runtime", "../Logs/FractureProfile-Runtime.json");
 		while (m_Running)
 		{
-			Renderer::BeginScene();
 			static uint32_t frameCount = 0;
 			auto m_StartTimepoint = std::chrono::high_resolution_clock::now();
 			std::string profile_name = "Fracture::Application::Run() Frame " + std::to_string(frameCount);
@@ -106,11 +105,10 @@ namespace Fracture {
 			long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
 			long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
 
-			FR_CORE_INFO("Frame: {0} Frame time: {1}", frameCount, end - start);
+			//FR_CORE_INFO("Frame: {0} Frame time: {1}", frameCount, end - start);
 
 			frameCount++;
 		}
-		Renderer::EndScene();
 		FR_END_PROFILE_SESSION();
 	}
 

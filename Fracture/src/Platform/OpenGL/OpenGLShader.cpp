@@ -2,7 +2,9 @@
 
 #include "OpenGLShader.h"
 #include "Fracture\Renderer\Shader.h"
+
 #include "glad\glad.h"
+#include "glm\gtc\type_ptr.hpp"
 
 namespace Fracture
 {
@@ -97,6 +99,17 @@ namespace Fracture
 	void OpenGLShader::Unbind() const
 	{
 		glUseProgram(0);
+	}
+
+	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
+	{
+		int32_t uniformLocation = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix)); // Upload the matrix
+		// TODO: Cache locations
+		// The first parameter is the location of the uniform we want to set.
+		// The second parameter is the number of matrices we want to upload. Here we only want to upload one.
+		// The third parameter specifies whether the matrix should be transposed. OpenGL expects matrices to be in column-major order instead of row-major order.
+		// The last parameter is the actual data.
 	}
 
 }

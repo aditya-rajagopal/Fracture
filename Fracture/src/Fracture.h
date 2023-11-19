@@ -28,6 +28,10 @@
 #include "Fracture\Renderer\Shader.h"
 #include "Fracture\Renderer\Buffer.h"
 #include "Fracture\Renderer\VertexArray.h"
+#include "Fracture\Renderer\OrthographicCamera.h"
+
+// --- Components ----------------------
+#include "Fracture\Components\Component.h"
 
 // --- Entry Point -----------------
 #include "Fracture\EntryPoint.h"
