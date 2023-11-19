@@ -11,10 +11,6 @@
 #include "Fracture\Core\LayerStack.h"
 #include "Fracture\ImGui\ImGuiLayer.h"
 
-#include "Fracture\Renderer\Shader.h"
-#include "Fracture\Renderer\Buffer.h"
-#include "Fracture\Renderer\VertexArray.h"
-
 namespace Fracture {
 
 	class FRACTURE_API Application
@@ -40,6 +36,8 @@ namespace Fracture {
 		bool m_Running = true; // this is a boolean that will be used to determine if the application is running or not.
 
 		LayerStack m_LayerStack;
+
+		long long m_LastFrameTime = 0;
 	private:
 		static Application* s_Instance; // this is a static pointer to the application class. This is used to get the application class from anywhere in the program.
 	};

@@ -137,14 +137,14 @@ namespace Fracture {
 	}
 }
 
-#ifndef FR_DIST
-#define FR_PROFILE_SCOPE(name) ::Fracture::Utils::InstrumentationTimer timer##__LINE__(name)
-#define FR_PROFILE_FUNCTION() FR_PROFILE_SCOPE(__FUNCSIG__)
-#define FR_BEGIN_PROFILE_SESSION(name, filepath) ::Fracture::Utils::Instrumentor::Get().BeginSession(name, filepath)
-#define FR_END_PROFILE_SESSION() ::Fracture::Utils::Instrumentor::Get().EndSession()
-#else
+//#ifndef FR_DIST
+//#define FR_PROFILE_SCOPE(name) ::Fracture::Utils::InstrumentationTimer timer##__LINE__(name)
+//#define FR_PROFILE_FUNCTION() FR_PROFILE_SCOPE(__FUNCSIG__)
+//#define FR_BEGIN_PROFILE_SESSION(name, filepath) ::Fracture::Utils::Instrumentor::Get().BeginSession(name, filepath)
+//#define FR_END_PROFILE_SESSION() ::Fracture::Utils::Instrumentor::Get().EndSession()
+//#else
 #define FR_PROFILE_SCOPE(name)
 #define FR_PROFILE_FUNCTION()
 #define FR_BEGIN_PROFILE_SESSION(name, filepath)
 #define FR_END_PROFILE_SESSION()
-#endif
+//#endif

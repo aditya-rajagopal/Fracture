@@ -1373,6 +1373,7 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Fracture\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\Fracture\Components\Component.h" />
+    <ClInclude Include="src\Fracture\Utils\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Fracture\Core\Application.cpp">

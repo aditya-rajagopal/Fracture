@@ -5,6 +5,7 @@
 // --- Utils ----------------------
 #include "Fracture\Utils\Log.h"
 #include "Fracture\Utils\Instrumentation.h"
+#include "Fracture\Utils\Timestep.h"
 
 // For use by Fracture applications
 #include "Fracture\Core\Application.h"

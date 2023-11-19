@@ -3,6 +3,8 @@
 #include "Fracture\Core\Core.h"
 #include "Fracture\Events\Event.h"
 
+#include "Fracture\Utils\Timestep.h"
+
 namespace Fracture
 {
 	class FRACTURE_API Layer
@@ -13,7 +15,7 @@ namespace Fracture
 
 		virtual void OnAttach() {};
 		virtual void OnDetach() {};
-		virtual void OnUpdate() {};
+		virtual void OnUpdate(Timestep delta_time) {};
 		virtual void OnEvent(Event& event) {};
 		virtual void OnImGuiRender() {};
 

@@ -92,28 +92,30 @@ public:
 
 	}
 
-	void OnUpdate() override
+	void OnUpdate(Fracture::Timestep delta_time) override
 	{
 		FR_PROFILE_SCOPE("Application::ExampleLayer::OnUpdate");
+		FR_TRACE("Delta time: {0}s ({1}ms)", delta_time.GetSeconds(), delta_time.GetMilliseconds());
+		m_LastFrameTime = delta_time;
 
 		if (Fracture::Input::IsKeyPressed(FR_KEY_LEFT))
-			m_Camera.Translate(cameraSpeed * glm::vec3(-1.0f, 0.0f, 0.0f));
+			m_Camera.Translate(cameraTranslationSpeed * delta_time * glm::vec3(-1.0f, 0.0f, 0.0f));
 		else if (Fracture::Input::IsKeyPressed(FR_KEY_RIGHT))
-			m_Camera.Translate(cameraSpeed * glm::vec3(1.0f, 0.0f, 0.0f));
-		else if (Fracture::Input::IsKeyPressed(FR_KEY_UP))
-			m_Camera.Translate(cameraSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+			m_Camera.Translate(cameraTranslationSpeed * delta_time * glm::vec3(1.0f, 0.0f, 0.0f));
+
+		if (Fracture::Input::IsKeyPressed(FR_KEY_UP))
+			m_Camera.Translate(cameraTranslationSpeed * delta_time * glm::vec3(0.0f, 1.0f, 0.0f));
 		else if (Fracture::Input::IsKeyPressed(FR_KEY_DOWN))
-			m_Camera.Translate(cameraSpeed * glm::vec3(0.0f, -1.0f, 0.0f));
+			m_Camera.Translate(cameraTranslationSpeed * delta_time * glm::vec3(0.0f, -1.0f, 0.0f));
 
 		if (Fracture::Input::IsKeyPressed(FR_KEY_A))
-			m_Camera.Rotate(cameraSpeed * 10.0f);
+			m_Camera.Rotate(cameraRotationSpeed * delta_time);
 		else if (Fracture::Input::IsKeyPressed(FR_KEY_D))
-			m_Camera.Rotate(-cameraSpeed * 10.0f);
+			m_Camera.Rotate(-cameraRotationSpeed * delta_time);
 
 		Fracture::Renderer::BeginScene(m_Camera);
 		Fracture::RenderCommand::SetClearColor({ 1.0f, 0.0f, 1.0f, 1.0f });
 		Fracture::RenderCommand::Clear();
-
 
 		if (!Fracture::Input::IsKeyPressed(FR_KEY_TAB))
 		{
@@ -135,8 +137,9 @@ public:
 	void OnImGuiRender() override
 	{
 		FR_PROFILE_SCOPE("Application::ImGuiLayer::OnImGuiRender");
-		ImGui::Begin("Test Window");
-		ImGui::Text("Hello World");
+		ImGui::Begin("Performance Overview");
+		ImGui::Text("Performance");
+		ImGui::Text("Frame Rate: %f", 1.0f/m_LastFrameTime);
 		ImGui::End();
 	}
 private:
@@ -144,7 +147,9 @@ private:
 	std::shared_ptr<Fracture::VertexArray> m_SquareVertexArray;
 	std::shared_ptr<Fracture::Shader> m_Shader;
 	Fracture::OrthographicCamera m_Camera;
-	float cameraSpeed = 0.005f;
+	float cameraTranslationSpeed = 1.0f;
+	float cameraRotationSpeed = 1.0f;
+	Fracture::Timestep m_LastFrameTime;
 };
 
 class Sandbox : public Fracture::Application

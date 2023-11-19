@@ -20,6 +20,7 @@ namespace Fracture {
 		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create()); // we cant use make_unique because we want to use the Create function
 		m_Window->SetEventCallback(FRACTURE_BIND_EVENT_FN(Application::OnEvent));
+		//m_Window->SetVSync(false);
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -66,7 +67,12 @@ namespace Fracture {
 		while (m_Running)
 		{
 			static uint32_t frameCount = 0;
+
 			auto m_StartTimepoint = std::chrono::high_resolution_clock::now();
+			long long startTime = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
+			Timestep deltaTime = (startTime - m_LastFrameTime) / 1000.0f / 1000.0f;
+			m_LastFrameTime = startTime;
+
 			std::string profile_name = "Fracture::Application::Run() Frame " + std::to_string(frameCount);
 			// TODO : The scops are not working correctly.
 			FR_PROFILE_SCOPE(profile_name.c_str());
@@ -80,7 +86,7 @@ namespace Fracture {
 				// Call the OnUpdate function of all the layers
 				for (Layer* layer : m_LayerStack)
 				{
-					layer->OnUpdate();
+					layer->OnUpdate(deltaTime);
 				}
 			}
 
@@ -100,10 +106,8 @@ namespace Fracture {
 				m_Window->OnUpdate();
 			}
 
-			auto endTimepoint = std::chrono::high_resolution_clock::now();
-
-			long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
-			long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
+			/*auto endTimepoint = std::chrono::high_resolution_clock::now();
+			m_LastFrameTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();*/
 
 			//FR_CORE_INFO("Frame: {0} Frame time: {1}", frameCount, end - start);
 
