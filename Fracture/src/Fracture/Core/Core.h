@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 
 #ifdef FR_PLATFORM_WINDOWS
 	#ifdef FR_DYNAMIC_LINK
@@ -30,3 +31,25 @@
 #define BIT(x) (1 << x) // This is a bit shift operator. It shifts the bit 1 to the left x times. So BIT(0) = 00000001, BIT(1) = 00000010, BIT(2) = 00000100, etc.
 
 #define FRACTURE_BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
+
+namespace Fracture{
+	
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+	template<typename T, typename ... Args>
+	constexpr Scope<T> CreateScope(Args&& ... args)
+	{
+		return std::make_unique<T>(std::forward<Args>(args)...);
+	}
+
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+
+	template<typename T, typename ... Args>
+	constexpr Ref<T> CreateRef(Args&& ... args)
+	{
+		return std::make_shared<T>(std::forward<Args>(args)...);
+	}
+
+}

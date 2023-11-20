@@ -3,7 +3,7 @@
 #include "Shapes.h"
 
 #include <memory>
-
+#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public Fracture::Layer
 {
@@ -16,7 +16,7 @@ public:
 								   0.5f, -0.5f, 0.0f, 0.0, 1.0, 0.0, 0.0, // second vertex (right bottom) position, colour
 								   0.0f,  0.5f, 0.0f, 0.0, 0.0, 1.0, 0.0 }; // third vertex (top center) position, colour
 
-		std::shared_ptr<Fracture::VertexBuffer> m_VertexBuffer;
+		Fracture::Ref<Fracture::VertexBuffer> m_VertexBuffer;
 		m_VertexBuffer.reset(Fracture::VertexBuffer::Create(vertices, sizeof(vertices)));
 		{
 			// creating the layout in a scope so that it is destroyed after we set it in the vertex buffer
@@ -30,25 +30,24 @@ public:
 
 		uint32_t indices[3] = { 0, 1, 2 }; // the indices of the vertices that make up the triangle. As mentioned above we draw the triangle by drawing 3 vertices in counter-clockwise order. The indices are used to specify the order in which the vertices should be drawn.
 
-		std::shared_ptr<Fracture::IndexBuffer> m_IndexBuffer;
+		Fracture::Ref<Fracture::IndexBuffer> m_IndexBuffer;
 		m_IndexBuffer.reset(Fracture::IndexBuffer::Create(indices, 3));
 		m_Triangle->VertexArray->SetIndexBuffer(m_IndexBuffer);
 		m_Triangle->VertexArray->Unbind();
 
 		m_Square->VertexArray.reset(Fracture::VertexArray::Create()); // create a vertex array object for a square
 
-		float squareVertices[4 * 7] = {-0.5f, -0.5f, 0.0f, 0.2, 0.3, 0.8, 0.0,
-										0.5f, -0.5f, 0.0f, 0.2, 0.3, 0.8, 0.0,
-										0.5f,  0.5f, 0.0f, 0.2, 0.3, 0.8, 0.0,
-									   -0.5f,  0.5f, 0.0f, 0.2, 0.3, 0.8, 0.0 };
+		float squareVertices[4 * 3] = {-0.5f, -0.5f, 0.0f,
+										0.5f, -0.5f, 0.0f,
+										0.5f,  0.5f, 0.0f,
+									   -0.5f,  0.5f, 0.0f};
 
-		std::shared_ptr<Fracture::VertexBuffer> m_SquareVertexBuffer;
+		Fracture::Ref<Fracture::VertexBuffer> m_SquareVertexBuffer;
 		m_SquareVertexBuffer.reset(Fracture::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 		{
 			// creating the layout in a scope so that it is destroyed after we set it in the vertex buffer
 			Fracture::BufferLayout layout = {
-				{ Fracture::ShaderDataType::Float3, "a_Position" },
-				{ Fracture::ShaderDataType::Float4, "a_Colour"}
+				{ Fracture::ShaderDataType::Float3, "a_Position" }
 			};
 			m_SquareVertexBuffer->SetLayout(layout);
 		}
@@ -56,7 +55,7 @@ public:
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 }; // the indices of the vertices that make up the square. As mentioned above we draw the square by drawing 6 vertices in counter-clockwise order. The indices are used to specify the order in which the vertices should be drawn.
 
-		std::shared_ptr<Fracture::IndexBuffer> m_SquareIndexBuffer;
+		Fracture::Ref<Fracture::IndexBuffer> m_SquareIndexBuffer;
 		m_SquareIndexBuffer.reset(Fracture::IndexBuffer::Create(squareIndices, 6));
 		m_Square->VertexArray->SetIndexBuffer(m_SquareIndexBuffer);
 
@@ -73,27 +72,24 @@ public:
 			uniform mat4 u_ViewProjection;
 			uniform mat4 u_Transform;
 
-			out vec4 v_Colour;
-
 			void main()
 			{
 				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-				v_Colour = a_Colour;
 			}
 		)";// Get source code for vertex shader.
 		std::string fragmentSource = R"(
 			#version 450 core
 			layout(location = 0) out vec4 color;
 
-			in vec4 v_Colour;
+			uniform vec4 u_Color;
 
 			void main()
 			{
-				color = v_Colour;
+				color = u_Color;
 			}
 		)";// Get source code for fragment shader.
 
-		std::shared_ptr<Fracture::Shader> local_shader;
+		Fracture::Ref<Fracture::Shader> local_shader;
 		local_shader.reset(Fracture::Shader::Create(vertexSource, fragmentSource));
 		m_Square->Shader = local_shader;
 		m_Triangle->Shader = local_shader;
@@ -124,17 +120,30 @@ public:
 
 		m_Square->Transform.Rotate(glm::vec3(0.0f, 0.0f, m_SqaureAnimationSpeed * delta_time));
 		
+		glm::vec4 redColour(0.8f, 0.2f, 0.3f, 1.0f);
+		glm::vec4 blueColour(0.2f, 0.3f, 0.8f, 1.0f);
+
 		for (int x = -10; x < 10; x++)
 		{
 			for (int y = -10; y < 10; y++)
 			{
 				Fracture::TransformComponent local_transform = m_Square->Transform;
 				local_transform.Translate(glm::vec3(x * 0.1f, y * 0.1f, 0.0f));
-				//local_transform.Rotate(glm::vec3(0.0f, 0.0f, m_SqaureAnimationSpeed * delta_time));
+
+				if ((x + y) % 2 == 0)
+				{
+					m_Square->Shader->Bind();
+					m_Square->Shader->SetFloat4("u_Color", redColour);
+				}
+				else
+				{
+					m_Square->Shader->Bind();
+					m_Square->Shader->SetFloat4("u_Color", blueColour);
+				}
+
 				Fracture::Renderer::Submit(m_Square->VertexArray, m_Square->Shader, local_transform.GetTransform());
 			}
 		}
-
 
 		//Fracture::Renderer::Submit(m_Triangle->VertexArray, m_Triangle->Shader, m_Triangle->Transform.GetTransform());
 
@@ -161,10 +170,18 @@ public:
 		ImGui::Text("Performance");
 		ImGui::Text("Frame Rate: %f", 1.0f/m_LastFrameTime);
 		ImGui::End();
+
+		ImGui::Begin("Camera Controls");
+		ImGui::Text("Camera Controls");
+		ImGui::Text("Arrow keys to move");
+		ImGui::SliderFloat("Camera Translation Speed", &m_cameraTranslationSpeed, 0.0f, 10.0f);
+		ImGui::SliderFloat("Camera Rotation Speed", &m_cameraRotationSpeed, 0.0f, 10.0f);
+		ImGui::SliderFloat("Camera Zoom Speed", &m_cameraZoomSpeed, 0.0f, 10.0f);
+		ImGui::End();
 	}
 private:
-	std::shared_ptr<Sandbox::Object> m_Triangle;
-	std::shared_ptr<Sandbox::Object> m_Square;
+	Fracture::Ref<Sandbox::Object> m_Triangle;
+	Fracture::Ref<Sandbox::Object> m_Square;
 
 	Fracture::OrthographicCamera m_Camera;
 	float m_cameraTranslationSpeed = 1.0f;

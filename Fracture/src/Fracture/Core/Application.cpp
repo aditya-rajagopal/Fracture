@@ -18,7 +18,7 @@ namespace Fracture {
 	{
 		FR_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
-		m_Window = std::unique_ptr<Window>(Window::Create()); // we cant use make_unique because we want to use the Create function
+		m_Window = Scope<Window>(Window::Create()); // we cant use make_unique because we want to use the Create function
 		m_Window->SetEventCallback(FRACTURE_BIND_EVENT_FN(Application::OnEvent));
 		//m_Window->SetVSync(false);
 

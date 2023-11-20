@@ -11,8 +11,8 @@ namespace Sandbox
 	struct Object
 	{
 		Fracture::TransformComponent Transform;
-		std::shared_ptr<Fracture::VertexArray> VertexArray;
-		std::shared_ptr<Fracture::Shader> Shader;
+		Fracture::Ref<Fracture::VertexArray> VertexArray;
+		Fracture::Ref<Fracture::Shader> Shader;
 
 		glm::vec4 Color = { 1.0, 0.0, 1.0, 1.0 };
 		std::string Name;
@@ -27,12 +27,12 @@ namespace Sandbox
 		{
 		}
 
-		Object(const std::string& name, const glm::vec4& color, const std::shared_ptr<Fracture::VertexArray>& vertexArray, const std::shared_ptr<Fracture::Shader>& shader)
+		Object(const std::string& name, const glm::vec4& color, const Fracture::Ref<Fracture::VertexArray>& vertexArray, const Fracture::Ref<Fracture::Shader>& shader)
 			: Name(name), Color(color), VertexArray(vertexArray), Shader(shader)
 		{
 		}
 
-		Object(const std::string& name, const glm::vec4& color, const std::shared_ptr<Fracture::VertexArray>& vertexArray, const std::shared_ptr<Fracture::Shader>& shader, const Fracture::TransformComponent& transform)
+		Object(const std::string& name, const glm::vec4& color, const Fracture::Ref<Fracture::VertexArray>& vertexArray, const Fracture::Ref<Fracture::Shader>& shader, const Fracture::TransformComponent& transform)
 			: Name(name), Color(color), VertexArray(vertexArray), Shader(shader), Transform(transform)
 		{
 		}
