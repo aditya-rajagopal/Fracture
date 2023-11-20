@@ -16,6 +16,7 @@ IncludeDir["GLFW"] = "Fracture/vendor/GLFW/include"
 IncludeDir["glad"] = "Fracture/vendor/glad/include"
 IncludeDir["ImGui"] = "Fracture/vendor/imgui/"
 IncludeDir["glm"] = "Fracture/vendor/glm"
+IncludeDir["stb_image"] = "Fracture/vendor/stb_image"
 
 startproject "Sandbox"
 
@@ -44,6 +45,8 @@ project "Fracture"
         "%{prj.name}/src/**.cpp",
         "%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
+        "%{prj.name}/vendor/stb_iamge/**.h",
+        "%{prj.name}/vendor/stb_iamge/**.cpp"
     }
 
     defines
@@ -58,7 +61,8 @@ project "Fracture"
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.glad}",
         "%{IncludeDir.ImGui}",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.stb_image}",
     }
 
     links
