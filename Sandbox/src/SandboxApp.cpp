@@ -11,39 +11,14 @@ public:
 	ExampleLayer()
 		:Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f, -100.0f, 100.0f), m_BigSquare(std::make_shared<Sandbox::Object>("Texture Square")), m_Square(std::make_shared<Sandbox::Object>("Ground Square"))
 	{
-		//m_Triangle->VertexArray.reset(Fracture::VertexArray::Create());
-		//float vertices[3 * 7] = { -0.5f, -0.5f, 0.0f, 1.0, 0.0, 0.0, 0.0, // first vertex (left bottom) position, colour
-		//						   0.5f, -0.5f, 0.0f, 0.0, 1.0, 0.0, 0.0, // second vertex (right bottom) position, colour
-		//						   0.0f,  0.5f, 0.0f, 0.0, 0.0, 1.0, 0.0 }; // third vertex (top center) position, colour
-
-		//Fracture::Ref<Fracture::VertexBuffer> m_VertexBuffer;
-		//m_VertexBuffer.reset(Fracture::VertexBuffer::Create(vertices, sizeof(vertices)));
-		//{
-		//	// creating the layout in a scope so that it is destroyed after we set it in the vertex buffer
-		//	Fracture::BufferLayout layout = {
-		//		{ Fracture::ShaderDataType::Float3, "a_Position" },
-		//		{ Fracture::ShaderDataType::Float4, "a_Colour"}
-		//	};
-		//	m_VertexBuffer->SetLayout(layout);
-		//}
-		//m_Triangle->VertexArray->AddVertexBuffer(m_VertexBuffer);
-
-		//uint32_t indices[3] = { 0, 1, 2 }; // the indices of the vertices that make up the triangle. As mentioned above we draw the triangle by drawing 3 vertices in counter-clockwise order. The indices are used to specify the order in which the vertices should be drawn.
-
-		//Fracture::Ref<Fracture::IndexBuffer> m_IndexBuffer;
-		//m_IndexBuffer.reset(Fracture::IndexBuffer::Create(indices, 3));
-		//m_Triangle->VertexArray->SetIndexBuffer(m_IndexBuffer);
-		//m_Triangle->VertexArray->Unbind();
-
-		m_Square->VertexArray.reset(Fracture::VertexArray::Create()); // create a vertex array object for a square
+		m_Square->VertexArray = Fracture::VertexArray::Create(); // create a vertex array object for a square
 
 		float squareVertices[4 * 5] = {-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
 										0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
 										0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
 									   -0.5f,  0.5f, 0.0f, 0.0f, 1.0f};
 
-		Fracture::Ref<Fracture::VertexBuffer> m_SquareVertexBuffer;
-		m_SquareVertexBuffer.reset(Fracture::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		Fracture::Ref<Fracture::VertexBuffer> m_SquareVertexBuffer = Fracture::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 		{
 			// creating the layout in a scope so that it is destroyed after we set it in the vertex buffer
 			Fracture::BufferLayout layout = {
@@ -56,16 +31,14 @@ public:
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 }; // the indices of the vertices that make up the square. As mentioned above we draw the square by drawing 6 vertices in counter-clockwise order. The indices are used to specify the order in which the vertices should be drawn.
 
-		Fracture::Ref<Fracture::IndexBuffer> m_SquareIndexBuffer;
-		m_SquareIndexBuffer.reset(Fracture::IndexBuffer::Create(squareIndices, 6));
-		m_Square->VertexArray->SetIndexBuffer(m_SquareIndexBuffer);
+		m_Square->VertexArray->SetIndexBuffer(Fracture::IndexBuffer::Create(squareIndices, 6));
 
 		m_Square->Transform.SetScale(glm::vec3(0.1f));
 
-		m_BigSquare->VertexArray.reset(Fracture::VertexArray::Create()); // create a vertex array object for a square
+		m_BigSquare->VertexArray = Fracture::VertexArray::Create(); // create a vertex array object for a square
 
 		m_BigSquare->VertexArray->AddVertexBuffer(m_SquareVertexBuffer);
-		m_BigSquare->VertexArray->SetIndexBuffer(m_SquareIndexBuffer);
+		m_BigSquare->VertexArray->SetIndexBuffer(Fracture::IndexBuffer::Create(squareIndices, 6));
 		m_BigSquare->Transform.SetScale(glm::vec3(1.5f));
 
 		// Read our shaders into the appropriate buffers
@@ -123,18 +96,17 @@ public:
 			}
 		)";// Get source code for fragment shader.
 
-		Fracture::Ref<Fracture::Shader> flat_colour_local_shader, texture_local_shader;
-
-		flat_colour_local_shader.reset(Fracture::Shader::Create(flatColourvertexSource, flatColourfragmentSource));
-		texture_local_shader.reset(Fracture::Shader::Create(textureVertexSource, texturefragmentSource));
-
-		m_Square->Shader = flat_colour_local_shader;
-		m_BigSquare->Shader = texture_local_shader;
+		m_Square->Shader = Fracture::Shader::Create(textureVertexSource, texturefragmentSource);
+		m_BigSquare->Shader = Fracture::Shader::Create(textureVertexSource, texturefragmentSource);
 
 		m_Texture = Fracture::Texture2D::Create("assets/textures/base-map.png"); // does not return a raw pointer.
-		m_Texture->Bind();
+		m_TextureBlue = Fracture::Texture2D::Create(256, 256, glm::vec3(0.2, 0.3, 0.8)); // does not return a raw pointer.
+		m_Texture->Bind(0);
+		m_TextureBlue->Bind(1);
 		m_BigSquare->Shader->Bind();
 		m_BigSquare->Shader->SetInt("u_Texture", 0);
+		m_Square->Shader->Bind();
+		m_Square->Shader->SetInt("u_Texture", 1);
 
 		//m_Camera.GetCameraTransform().SetRotation(glm::vec3(-3.1415f / 3.0f, 0.0f, -3.1415f / 4.0f));
 
@@ -181,8 +153,8 @@ public:
 			{
 				Fracture::TransformComponent local_transform = m_Square->Transform;
 				local_transform.Translate(glm::vec3(x * 0.1f, y * 0.1f, 0.0f));
-				m_Square->Shader->Bind();
-				m_Square->Shader->SetFloat4("u_Color", blueColour);
+				/*m_Square->Shader->Bind();
+				m_Square->Shader->SetFloat4("u_Color", blueColour);*/
 				Fracture::Renderer::Submit(m_Square->VertexArray, m_Square->Shader, local_transform.GetTransform());
 			}
 		}
@@ -235,6 +207,7 @@ private:
 	Fracture::Ref<Sandbox::Object> m_Square;
 
 	Fracture::Ref<Fracture::Texture2D> m_Texture;
+	Fracture::Ref<Fracture::Texture2D> m_TextureBlue;
 
 	Fracture::OrthographicCamera m_Camera;
 	float m_cameraTranslationSpeed = 1.0f;

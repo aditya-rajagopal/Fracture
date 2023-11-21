@@ -7,7 +7,7 @@
 
 namespace Fracture {
 
-	VertexArray* VertexArray::Create()
+	Ref<VertexArray> VertexArray::Create()
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -15,7 +15,7 @@ namespace Fracture {
 			FR_CORE_ASSERT(flase, "RendererAPI::None is currently not supported!");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return new OpenGLVertexArray();
+			return CreateRef<OpenGLVertexArray>();
 		}
 
 		FR_CORE_ASSERT(false, "Unknown RendererAPI!");

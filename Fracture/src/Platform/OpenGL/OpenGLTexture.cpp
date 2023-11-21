@@ -43,9 +43,9 @@ namespace Fracture {
 		// set each pixel in the iamge to color
 		for (int i = 0; i < m_Width * m_Height; i++)
 		{
-			data[i * 3 + 0] = color.r;
-			data[i * 3 + 1] = color.g;
-			data[i * 3 + 2] = color.b;
+			data[i * 3 + 0] = color.r * 255;
+			data[i * 3 + 1] = color.g * 255;
+			data[i * 3 + 2] = color.b * 255;
 		}
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
