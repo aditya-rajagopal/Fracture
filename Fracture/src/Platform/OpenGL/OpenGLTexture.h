@@ -10,7 +10,7 @@ namespace Fracture
 	{
 	public:
 		OpenGLTexture2D(const std::string& path);
-		OpenGLTexture2D(uint32_t width, uint32_t height, glm::vec3 color);
+		OpenGLTexture2D(uint32_t width, uint32_t height, glm::vec4 color);
 
 		virtual ~OpenGLTexture2D();
 

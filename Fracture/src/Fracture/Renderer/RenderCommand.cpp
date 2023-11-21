@@ -5,7 +5,7 @@
 
 namespace Fracture {
 
-	RendererAPI* RenderCommand::s_RendererAPI = RenderCommand::CreateRendererAPI();
+	RendererAPI* RenderCommand::s_RendererAPI;
 
 	RendererAPI* RenderCommand::CreateRendererAPI() {
 

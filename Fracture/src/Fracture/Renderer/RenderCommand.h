@@ -8,6 +8,11 @@ namespace Fracture{
 	class RenderCommand
 	{
 	public:
+		inline static void Init()
+		{
+			s_RendererAPI = CreateRendererAPI();
+			s_RendererAPI->Init();
+		}
 		inline static void DrawIndexed(uint32_t indexCount)
 		{
 			s_RendererAPI->DrawIndexed(indexCount);

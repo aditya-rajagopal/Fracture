@@ -9,7 +9,7 @@ class ExampleLayer : public Fracture::Layer
 {
 public:
 	ExampleLayer()
-		:Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f, -100.0f, 100.0f), m_BigSquare(std::make_shared<Sandbox::Object>("Texture Square")), m_Square(std::make_shared<Sandbox::Object>("Ground Square"))
+		:Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f, -100.0f, 100.0f), m_BigSquare(std::make_shared<Sandbox::Object>("Texture Square")), m_Square(std::make_shared<Sandbox::Object>("Ground Square")), m_Logo(std::make_shared<Sandbox::Object>("Logo Square"))
 	{
 		m_Square->VertexArray = Fracture::VertexArray::Create(); // create a vertex array object for a square
 
@@ -41,30 +41,36 @@ public:
 		m_BigSquare->VertexArray->SetIndexBuffer(Fracture::IndexBuffer::Create(squareIndices, 6));
 		m_BigSquare->Transform.SetScale(glm::vec3(1.5f));
 
-		// Read our shaders into the appropriate buffers
-		std::string flatColourvertexSource = R"(
-			#version 450 core
-			layout(location = 0) in vec3 a_Position;
-			
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
+		m_Logo->VertexArray = Fracture::VertexArray::Create(); // create a vertex array object for a square
 
-			void main()
-			{
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-			}
-		)";// Get source code for vertex shader.
-		std::string flatColourfragmentSource = R"(
-			#version 450 core
-			layout(location = 0) out vec4 color;
+		m_Logo->VertexArray->AddVertexBuffer(m_SquareVertexBuffer);
+		m_Logo->VertexArray->SetIndexBuffer(Fracture::IndexBuffer::Create(squareIndices, 6));
+		m_Logo->Transform.SetScale(glm::vec3(0.5f));
 
-			uniform vec4 u_Color;
+		//// Read our shaders into the appropriate buffers
+		//std::string flatColourvertexSource = R"(
+		//	#version 450 core
+		//	layout(location = 0) in vec3 a_Position;
+		//	
+		//	uniform mat4 u_ViewProjection;
+		//	uniform mat4 u_Transform;
 
-			void main()
-			{
-				color = u_Color;
-			}
-		)";// Get source code for fragment shader.
+		//	void main()
+		//	{
+		//		gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+		//	}
+		//)";// Get source code for vertex shader.
+		//std::string flatColourfragmentSource = R"(
+		//	#version 450 core
+		//	layout(location = 0) out vec4 color;
+
+		//	uniform vec4 u_Color;
+
+		//	void main()
+		//	{
+		//		color = u_Color;
+		//	}
+		//)";// Get source code for fragment shader.
 
 		std::string textureVertexSource = R"(
 			#version 450 core
@@ -98,15 +104,21 @@ public:
 
 		m_Square->Shader = Fracture::Shader::Create(textureVertexSource, texturefragmentSource);
 		m_BigSquare->Shader = Fracture::Shader::Create(textureVertexSource, texturefragmentSource);
+		m_Logo->Shader = Fracture::Shader::Create(textureVertexSource, texturefragmentSource);
 
 		m_Texture = Fracture::Texture2D::Create("assets/textures/base-map.png"); // does not return a raw pointer.
-		m_TextureBlue = Fracture::Texture2D::Create(256, 256, glm::vec3(0.2, 0.3, 0.8)); // does not return a raw pointer.
+		m_TextureBlue = Fracture::Texture2D::Create(256, 256, glm::vec4(0.2f, 0.3f, 0.8f, 1.0f)); // does not return a raw pointer.
+		m_TextureLogo = Fracture::Texture2D::Create("assets/textures/FractureLogo.png"); // does not return a raw pointer.
 		m_Texture->Bind(0);
 		m_TextureBlue->Bind(1);
+		m_TextureLogo->Bind(2);
+
 		m_BigSquare->Shader->Bind();
 		m_BigSquare->Shader->SetInt("u_Texture", 0);
 		m_Square->Shader->Bind();
 		m_Square->Shader->SetInt("u_Texture", 1);
+		m_Logo->Shader->Bind();
+		m_Logo->Shader->SetInt("u_Texture", 2);
 
 		//m_Camera.GetCameraTransform().SetRotation(glm::vec3(-3.1415f / 3.0f, 0.0f, -3.1415f / 4.0f));
 
@@ -147,19 +159,20 @@ public:
 		glm::vec4 redColour(0.8f, 0.2f, 0.3f, 1.0f);
 		glm::vec4 blueColour(0.2f, 0.3f, 0.8f, 1.0f);
 
-		for (int x = -10; x < 10; x++)
+		for (int x = -20; x < 20; x++)
 		{
-			for (int y = -10; y < 10; y++)
+			for (int y = -20; y < 20; y++)
 			{
 				Fracture::TransformComponent local_transform = m_Square->Transform;
 				local_transform.Translate(glm::vec3(x * 0.1f, y * 0.1f, 0.0f));
-				/*m_Square->Shader->Bind();
-				m_Square->Shader->SetFloat4("u_Color", blueColour);*/
 				Fracture::Renderer::Submit(m_Square->VertexArray, m_Square->Shader, local_transform.GetTransform());
 			}
 		}
 
 		Fracture::Renderer::Submit(m_BigSquare->VertexArray, m_BigSquare->Shader, m_BigSquare->Transform.GetTransform());
+
+		m_Logo->Transform.SetPosition(m_LogoPosition);
+		Fracture::Renderer::Submit(m_Logo->VertexArray, m_Logo->Shader, m_Logo->Transform.GetTransform());
 
 		Fracture::Renderer::EndScene();
 	}
@@ -196,18 +209,18 @@ public:
 		ImGui::Text("A to toggle animation");
 		ImGui::SliderFloat("Square Animation Speed", &m_SqaureAnimationSpeed, 0.0f, 10.0f);
 		ImGui::Checkbox("Animate Squares", &m_AnimateSquares);
-		ImGui::Text("Big Square Controls");
-		ImGui::Text("WASD to move");
-		ImGui::Text("Q and E to rotate");
-		ImGui::Text("R and F to scale");
+		ImGui::Text("Control logo position");
+		ImGui::SliderFloat3("Logo Position", glm::value_ptr(m_LogoPosition), -1.0f, 1.0f);
 		ImGui::End();
 	}
 private:
 	Fracture::Ref<Sandbox::Object> m_BigSquare;
+	Fracture::Ref<Sandbox::Object> m_Logo;
 	Fracture::Ref<Sandbox::Object> m_Square;
 
 	Fracture::Ref<Fracture::Texture2D> m_Texture;
 	Fracture::Ref<Fracture::Texture2D> m_TextureBlue;
+	Fracture::Ref<Fracture::Texture2D> m_TextureLogo;
 
 	Fracture::OrthographicCamera m_Camera;
 	float m_cameraTranslationSpeed = 1.0f;
@@ -215,6 +228,8 @@ private:
 	float m_cameraZoomSpeed = 2.0f;
 	bool m_AnimateSquares = false;
 	bool m_isIsometric = false;
+
+	glm::vec3 m_LogoPosition = { -1.0f, 0.0f, 0.0f };
 
 	Fracture::Timestep m_LastFrameTime;
 

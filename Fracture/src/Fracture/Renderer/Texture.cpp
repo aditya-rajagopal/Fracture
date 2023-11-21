@@ -6,7 +6,7 @@
 
 namespace Fracture {
 
-	Ref<Texture2D> Texture2D::Create(uint32_t width, uint32_t height, glm::vec3 color)
+	Ref<Texture2D> Texture2D::Create(uint32_t width, uint32_t height, glm::vec4 color)
 	{
 		switch (Renderer::GetAPI())
 		{
