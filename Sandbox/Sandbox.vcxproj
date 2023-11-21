@@ -152,6 +152,9 @@
     <Image Include="assets\textures\FractureLogo.png" />
     <Image Include="assets\textures\normal-map.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\TextureShader.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

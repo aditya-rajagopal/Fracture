@@ -17,6 +17,18 @@ namespace Fracture
 
 		FR_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
-	}	
+	}
+	Ref<Shader> Shader::Create(const std::string& shaderFilePath)
+	{
+		switch (Renderer::GetAPI())
+		{
+		case RendererAPI::API::None:    FR_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
+		case RendererAPI::API::OpenGL:  return CreateRef<OpenGLShader>(shaderFilePath);
+		}
+
+		FR_CORE_ASSERT(false, "Unknown RendererAPI!");
+		return nullptr;
+	}
+
 
 }

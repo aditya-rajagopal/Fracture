@@ -30,6 +30,7 @@ namespace Fracture
 		virtual void SetBool(const std::string& name, bool value) = 0;
 
 		static Ref<Shader> Create(const std::string& vertex_source, const std::string fragment_source);
+		static Ref<Shader> Create(const std::string& shaderFilePath);
 	};
 
 }

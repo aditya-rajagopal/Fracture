@@ -168,6 +168,7 @@
     <ClInclude Include="src\Fracture\Renderer\Shader.h" />
     <ClInclude Include="src\Fracture\Renderer\Texture.h" />
     <ClInclude Include="src\Fracture\Renderer\VertexArray.h" />
+    <ClInclude Include="src\Fracture\Utils\Helpers.h" />
     <ClInclude Include="src\Fracture\Utils\Instrumentation.h" />
     <ClInclude Include="src\Fracture\Utils\Log.h" />
     <ClInclude Include="src\Fracture\Utils\Timestep.h" />

@@ -5,6 +5,8 @@
 #include "Fracture/Core/Core.h"
 #include "Fracture/Renderer/Shader.h"
 
+#include "glad/glad.h"
+
 
 namespace Fracture
 {
@@ -13,6 +15,7 @@ namespace Fracture
 	{
 	public:
 		OpenGLShader(const std::string& vertex_source, const std::string fragment_source);
+		OpenGLShader(const std::string& shaderFilePath);
 		~OpenGLShader();
 
 		virtual void Bind() const override;
@@ -49,6 +52,8 @@ namespace Fracture
 		void UploadUniformBool(const std::string& name, bool value);
 	private:
 		int32_t GetUniformLocation(const std::string& name);
+		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
+		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
 	private:
 		uint32_t m_RendererID;
 		std::unordered_map<std::string, int32_t> m_UniformLocationCache;

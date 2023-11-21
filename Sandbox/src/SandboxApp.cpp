@@ -104,7 +104,7 @@ public:
 
 		m_Square->Shader = Fracture::Shader::Create(textureVertexSource, texturefragmentSource);
 		m_BigSquare->Shader = Fracture::Shader::Create(textureVertexSource, texturefragmentSource);
-		m_Logo->Shader = Fracture::Shader::Create(textureVertexSource, texturefragmentSource);
+		m_Logo->Shader = Fracture::Shader::Create("assets/shaders/TextureShader.glsl");
 
 		m_Texture = Fracture::Texture2D::Create("assets/textures/base-map.png"); // does not return a raw pointer.
 		m_TextureBlue = Fracture::Texture2D::Create(256, 256, glm::vec4(0.2f, 0.3f, 0.8f, 1.0f)); // does not return a raw pointer.
