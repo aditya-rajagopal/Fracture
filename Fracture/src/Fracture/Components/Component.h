@@ -16,9 +16,9 @@ namespace Fracture {
 		TransformComponent(const glm::vec3& translation)
 			: m_Position(translation) {}
 
-		const glm::vec3& GetPosition() const { return m_Position; }
-		const glm::vec3& GetRotation() const { return m_Rotation; }
-		const glm::vec3& GetScale() const { return m_Scale; }
+		glm::vec3& GetPosition() { return m_Position; }
+		glm::vec3& GetRotation() { return m_Rotation; }
+		glm::vec3& GetScale() { return m_Scale; }
 
 		void SetPosition(const glm::vec3& position) { m_Position = position; isChanged = true; }
 		void SetRotation(const glm::vec3& rotation) { m_Rotation = rotation; isChanged = true; }

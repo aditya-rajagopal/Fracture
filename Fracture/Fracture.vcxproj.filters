@@ -1421,6 +1421,7 @@
     </ClInclude>
     <ClInclude Include="vendor\stb_image\stb_image.h" />
     <ClInclude Include="src\Fracture\Utils\Helpers.h" />
+    <ClInclude Include="src\Fracture\Renderer\OrthographicCameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Fracture\Core\Application.cpp">
@@ -1494,5 +1495,6 @@
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp" />
     <ClCompile Include="src\Fracture\Utils\Helpers.cpp" />
+    <ClCompile Include="src\Fracture\Renderer\OrthographicCameraController.cpp" />
   </ItemGroup>
 </Project>

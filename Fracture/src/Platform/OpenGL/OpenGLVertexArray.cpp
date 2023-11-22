@@ -57,7 +57,6 @@ namespace Fracture {
 		uint32_t index = 0;
 		for (const auto& element : layout)
 		{
-			FR_CORE_INFO("Layout element: {0}", element.Name);
 			glEnableVertexAttribArray(index);
 			glVertexAttribPointer(
 				index,

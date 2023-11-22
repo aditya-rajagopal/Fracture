@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
+
 #include <glm\glm.hpp>
 
 namespace Fracture
@@ -8,7 +10,6 @@ namespace Fracture
 	class Shader
 	{
 	public:
-
 		virtual ~Shader() {};
 
 		virtual void Bind() const = 0;
@@ -29,8 +30,45 @@ namespace Fracture
 					 
 		virtual void SetBool(const std::string& name, bool value) = 0;
 
-		static Ref<Shader> Create(const std::string& vertex_source, const std::string fragment_source);
+		static Ref<Shader> Create(const std::string& name, const std::string& vertex_source, const std::string fragment_source);
+		static Ref<Shader> Create(const std::string& name, const std::string& shaderFilePath);
 		static Ref<Shader> Create(const std::string& shaderFilePath);
+
+		virtual const std::string& GetName() const = 0;
+	};
+
+	class ShaderLibrary
+	{
+	public:
+		static Scope<ShaderLibrary>& GetInstance()
+		{
+			static Scope<ShaderLibrary> instance;
+			if (instance == nullptr)
+			{
+				instance = CreateScope<ShaderLibrary>();
+				instance->Init();
+			}
+			return instance;
+		}
+
+		static void Add(const std::string& name, const Ref<Shader>& shader) { return GetInstance()->IAdd(name, shader); } 
+		static void Add(const Ref<Shader>& shader) { return GetInstance()->IAdd(shader); }
+		static Ref<Shader> Load(const std::string& filepath) { return GetInstance()->ILoad(filepath); }
+		static Ref<Shader> Load(const std::string& name, const std::string& filepath) { return GetInstance()->ILoad(name, filepath); }
+		static Ref<Shader> Load(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) { return GetInstance()->ILoad(name, vertexSrc, fragmentSrc); }
+		static Ref<Shader> Get(const std::string& name) { return GetInstance()->IGet(name); }
+	private:
+		void Init();
+		void IAdd(const std::string& name, const Ref<Shader>& shader); // add a shader to the library
+		void IAdd(const Ref<Shader>& shader); // add a shader to the library
+		Ref<Shader> ILoad(const std::string& filepath); // load a shader from a file
+		Ref<Shader> ILoad(const std::string& name, const std::string& filepath); // load a shader from a file
+		Ref<Shader> ILoad(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc); // load shaders from string sources
+		Ref<Shader> IGet(const std::string& name); // get a shader from the library
+	private:
+		std::unordered_map<std::string, Ref<Shader>> m_Shaders; // a map of all the shaders we have loaded
 	};
 
 }
+
+#define MAX_SHADER_TYPE_COUNT 2 // the number of shader types we support currently (vertex and fragment shaders)

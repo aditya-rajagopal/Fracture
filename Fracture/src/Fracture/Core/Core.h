@@ -21,8 +21,8 @@
 #endif
 
 #ifdef FR_ENABLE_ASSERTS
-	#define FR_ASSERT(x, ...) { if(!(x)) { FR_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-	#define FR_CORE_ASSERT(x, ...) { if(!(x)) { FR_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#define FR_ASSERT(x, ...) { if(!(x)) { FR_ERROR("Assertion Failed: "); FR_ERROR(__VA_ARGS__); __debugbreak(); } }
+	#define FR_CORE_ASSERT(x, ...) { if(!(x)) { FR_CORE_ERROR("Assertion Failed: "); FR_CORE_ERROR(__VA_ARGS__); __debugbreak(); } }
 #else	
 	#define FR_ASSERT(x, ...)
 	#define FR_CORE_ASSERT(x, ...) 

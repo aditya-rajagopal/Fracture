@@ -30,6 +30,7 @@
 #include "Fracture\Renderer\Buffer.h"
 #include "Fracture\Renderer\VertexArray.h"
 #include "Fracture\Renderer\OrthographicCamera.h"
+#include "Fracture\Renderer\OrthographicCameraController.h"
 #include "Fracture\Renderer\Texture.h"
 
 // --- Components ----------------------

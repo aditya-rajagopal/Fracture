@@ -20,7 +20,7 @@ namespace Fracture {
 		s_Instance = this;
 		m_Window = Scope<Window>(Window::Create()); // we cant use make_unique because we want to use the Create function
 		m_Window->SetEventCallback(FRACTURE_BIND_EVENT_FN(Application::OnEvent));
-		//m_Window->SetVSync(false);
+		m_Window->SetVSync(false);
 		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();

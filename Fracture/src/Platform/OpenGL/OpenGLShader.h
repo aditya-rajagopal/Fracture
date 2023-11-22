@@ -14,8 +14,8 @@ namespace Fracture
 	class OpenGLShader : public Shader
 	{
 	public:
-		OpenGLShader(const std::string& vertex_source, const std::string fragment_source);
-		OpenGLShader(const std::string& shaderFilePath);
+		OpenGLShader(const std::string& name, const std::string& vertex_source, const std::string fragment_source);
+		OpenGLShader(const std::string& name, const std::string& shaderFilePath);
 		~OpenGLShader();
 
 		virtual void Bind() const override;
@@ -50,12 +50,15 @@ namespace Fracture
 		void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
 
 		void UploadUniformBool(const std::string& name, bool value);
+
+		virtual const std::string& GetName() const override { return m_Name; }
 	private:
 		int32_t GetUniformLocation(const std::string& name);
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
 		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
 	private:
 		uint32_t m_RendererID;
+		std::string m_Name;
 		std::unordered_map<std::string, int32_t> m_UniformLocationCache;
 	};
 

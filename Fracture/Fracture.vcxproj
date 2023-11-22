@@ -162,6 +162,7 @@
     <ClInclude Include="src\Fracture\Renderer\Buffer.h" />
     <ClInclude Include="src\Fracture\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Fracture\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\Fracture\Renderer\OrthographicCameraController.h" />
     <ClInclude Include="src\Fracture\Renderer\RenderCommand.h" />
     <ClInclude Include="src\Fracture\Renderer\Renderer.h" />
     <ClInclude Include="src\Fracture\Renderer\RendererAPI.h" />
@@ -607,6 +608,7 @@
     <ClCompile Include="src\Fracture\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Fracture\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Fracture\Renderer\OrthographicCamera.cpp" />
+    <ClCompile Include="src\Fracture\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Fracture\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Fracture\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Fracture\Renderer\RendererAPI.cpp" />

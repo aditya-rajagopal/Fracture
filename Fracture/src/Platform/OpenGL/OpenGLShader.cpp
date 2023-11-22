@@ -84,11 +84,6 @@ namespace Fracture
 			// we define the shader define at the top to disable all the other shader types and only compile the one we want
 			shaderSources[shaderType] = "#version 450 core\n#define " + defineString + "\n" + source;
 		}
-		for (auto&& [type, source] : shaderSources)
-		{
-			FR_CORE_INFO("Shader Type: {0}", ShaderTypeToString(type));
-			FR_CORE_INFO("{0}", source);
-		}
 		return shaderSources;
 	}
 
@@ -96,9 +91,11 @@ namespace Fracture
 	{
 		// Create an empty program object with a unique ID
 		GLuint program	= glCreateProgram();
-
+		FR_CORE_ASSERT(shaderSources.size() <= MAX_SHADER_TYPE_COUNT, "We only support {0} shaders for now", MAX_SHADER_TYPE_COUNT);
 		// Create handles for the vertex and framgent shaders
-		std::vector<GLenum> glShaderIDs(shaderSources.size());
+		//std::vector<GLenum> glShaderIDs(shaderSources.size());
+		std::array<GLenum, MAX_SHADER_TYPE_COUNT> glShaderIDs;
+
 		int glShaderIDIndex = 0;
 		for (auto&& [type, source] : shaderSources)
 		{
@@ -158,8 +155,8 @@ namespace Fracture
 	* vertex_source(const std::string&): The source code for the vertex shader
 	* fragment_source(const std::string&): The source code for the fragment shader
 	*/
-	OpenGLShader::OpenGLShader(const std::string& vertex_source, const std::string fragment_source) :
-		m_RendererID(0)
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertex_source, const std::string fragment_source) :
+		m_RendererID(0), m_Name(name)
 	{
 		std::unordered_map<GLenum, std::string> shaderSources;
 		shaderSources[GL_VERTEX_SHADER] = vertex_source;
@@ -181,8 +178,8 @@ namespace Fracture
 	* ShaderFilePath(const std::string&): Path to the shader file
 	* 
 	*/
-	OpenGLShader::OpenGLShader(const std::string& shaderFilePath):
-		m_RendererID(0)
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& shaderFilePath):
+		m_RendererID(0), m_Name(name)
 	{
 		// Create handles for the vertex and framgent shaders
 		std::string source = Utils::ReadFile(shaderFilePath);

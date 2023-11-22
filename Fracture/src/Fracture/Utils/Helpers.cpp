@@ -6,7 +6,7 @@ namespace Fracture {
 
 		std::string ReadFile(const std::string& filePath)
 		{
-			std::ifstream stream(filePath, std::ios::in, std::ios::binary);
+			std::ifstream stream(filePath, std::ios::in | std::ios::binary);
 			std::string result;
 
 			if (stream)
