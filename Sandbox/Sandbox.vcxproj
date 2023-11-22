@@ -144,17 +144,6 @@
       <Project>{2109A846-0DD6-0252-36EF-F0F9221B38E0}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="Assets\base-map.png" />
-    <Image Include="Assets\normal-map.png" />
-    <Image Include="assets\textures\base-map.png" />
-    <Image Include="assets\textures\Checkerboard.png" />
-    <Image Include="assets\textures\FractureLogo.png" />
-    <Image Include="assets\textures\normal-map.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="assets\shaders\TextureShader.glsl" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

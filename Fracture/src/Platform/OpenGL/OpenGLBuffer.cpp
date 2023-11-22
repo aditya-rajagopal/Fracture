@@ -52,7 +52,10 @@ namespace Fracture {
 		m_RendererID(0),  m_Count(count)
 	{
 		glCreateBuffers(1, &m_RendererID);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
+		// We bind the buffer to GL_ARRAY_BUFFER instead of GL_ELEMENT_ARRAY_BUFFER because  when we want to upload teh data we want to bind the buffer to GL_ARRAY_BUFFER like any other buffer. 
+		// We can then call glBufferData with the index buffer object bound to GL_ARRAY_BUFFER. This will upload the data to the currently bound buffer. 
+		// We only need to bind to GL_ELEMENT_ARRAY_BUFFER when we want to draw something. This means that we can just bind the index buffer before we want to draw something and it will be used. This will tell openGL that the current buffer i am binding is an index buffer.
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 		SetData((void*)indices, count * sizeof(uint32_t));
 	}
 
@@ -63,7 +66,7 @@ namespace Fracture {
 
 	void OpenGLIndexBuffer::SetData(const void* data, uint32_t size)
 	{
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW); // copy the index data into the buffer's memory by calling glBufferData with the index buffer object bound to GL_ELEMENT_ARRAY_BUFFER. We use GL_STATIC_DRAW because the index data will not change.
+		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW); // copy the index data into the buffer's memory by calling glBufferData with the index buffer object bound to GL_ELEMENT_ARRAY_BUFFER. We use GL_STATIC_DRAW because the index data will not change.
 	}
 
 	void OpenGLIndexBuffer::Bind() const

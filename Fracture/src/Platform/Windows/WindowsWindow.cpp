@@ -10,7 +10,7 @@
 
 namespace Fracture {
 
-	static bool s_GLFWInitialized = false;
+	static uint8_t s_GLFWWindowCount = 0;
 
 	Window* Window::Create(const WindowProperties& props)
 	{
@@ -36,17 +36,17 @@ namespace Fracture {
 		FR_CORE_INFO("Creating window OpenGL: {0} ({1}, {2})", m_Data.Title, m_Data.Width, m_Data.Height);
 
 
-		if (!s_GLFWInitialized)
+		if (s_GLFWWindowCount == 0) // initialize GLFW on first window creation
 		{
 			int success = glfwInit();
 			FR_CORE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
-			s_GLFWInitialized = true;
 		}
 
 		m_Window = glfwCreateWindow((int)m_Data.Width, (int)m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		++s_GLFWWindowCount; // increment window count
 
-		m_Context = new OpenGLContext(m_Window);
+		m_Context = CreateScope<OpenGLContext>(m_Window);
 		m_Context->Init(); // initialize the graphics context. This will load all OpenGL function pointers via GLAD. We pass glfwGetProcAddress to gladLoadGLLoader to load the OpenGL function pointers that are unique to the current context (in this case the GLFW window we just created).
 
 		// in glfw we can provide a pointer to some user-defined data with glfwSetWindowUserPointer. We can use this to store a pointer to our WindowData struct.
@@ -180,5 +180,10 @@ namespace Fracture {
 	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(m_Window);
+		s_GLFWWindowCount -= 1; // decrement window count
+		if (s_GLFWWindowCount == 0) // terminate GLFW on last window destruction
+		{
+			glfwTerminate();
+		}
 	}
 }

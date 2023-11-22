@@ -8,8 +8,4 @@ namespace Fracture {
 	{
 	}
 
-	Layer::~Layer()
-	{
-	}
-
 }

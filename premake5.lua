@@ -8,6 +8,10 @@ workspace "SoulCat"
         "Dist"
     }
 
+    flags
+	{
+		"MultiProcessorCompile"
+	}
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root folder
@@ -45,8 +49,8 @@ project "Fracture"
         "%{prj.name}/src/**.cpp",
         "%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
-        "%{prj.name}/vendor/stb_iamge/**.h",
-        "%{prj.name}/vendor/stb_iamge/**.cpp"
+        "%{prj.name}/vendor/stb_image/**.h",
+        "%{prj.name}/vendor/stb_image/**.cpp"
     }
 
     defines

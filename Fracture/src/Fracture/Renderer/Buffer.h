@@ -41,7 +41,7 @@ namespace Fracture {
 		ShaderDataType Type;
 		bool Normalized;
 
-		BufferElement() {}
+		BufferElement() = default;
 		BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
 			:Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0), Normalized(normalized)
 		{}
@@ -111,7 +111,7 @@ namespace Fracture {
 
 	class VertexBuffer {
 	public:
-		virtual ~VertexBuffer() {};
+		virtual ~VertexBuffer() = default;
 
 		virtual void SetData(const void* data, uint32_t size) = 0;
 
@@ -127,7 +127,7 @@ namespace Fracture {
 
 	class IndexBuffer {
 	public:
-		virtual ~IndexBuffer() {};
+		virtual ~IndexBuffer() = default;
 
 		virtual void SetData(const void* data, uint32_t size) = 0;
 

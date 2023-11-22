@@ -8,7 +8,7 @@
 namespace Fracture {
 
 	// We create the static instance of the Input class here because we want different implementations of the Input class for different platforms.
-	Input* Input::s_Instance = new WindowsInput();
+	Scope<Input> Input::s_Instance = CreateScope<WindowsInput>();
 
 	bool WindowsInput::IsKeyPressedImpl(int keyCode)
 	{

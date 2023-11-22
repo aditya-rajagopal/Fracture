@@ -53,20 +53,18 @@ namespace Fracture {
 																					// 3 * sizeof(float) is the stride. It defines where the next vertex attribute would be 
 																					// nullptr is the offset of where the position data begins in the buffer. Since the position data is at the start of the data array this value is 0.
 
-
-		uint32_t index = 0;
 		for (const auto& element : layout)
 		{
-			glEnableVertexAttribArray(index);
+			glEnableVertexAttribArray(m_VertexBufferIndex);
 			glVertexAttribPointer(
-				index,
+				m_VertexBufferIndex,
 				element.GetElementCount(),
 				ShaderDataTypeToOpenGLBaseType(element.Type),
 				element.Normalized,
 				layout.GetStride(),
-				(const void*)element.Offset
+				(const void*)(intptr_t)element.Offset
 			);
-			index++;
+			m_VertexBufferIndex++;
 		}
 
 		m_VertexBuffers.push_back(vertexBuffer);

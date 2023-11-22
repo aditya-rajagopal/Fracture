@@ -40,6 +40,7 @@ namespace Fracture
 	class ShaderLibrary
 	{
 	public:
+
 		static Scope<ShaderLibrary>& GetInstance()
 		{
 			static Scope<ShaderLibrary> instance;

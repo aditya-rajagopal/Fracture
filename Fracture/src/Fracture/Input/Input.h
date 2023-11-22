@@ -6,7 +6,12 @@ namespace Fracture {
 
 	class FRACTURE_API Input
 	{
+	protected:
+		Input() = default;
 	public:
+		Input(const Input&) = delete;
+		Input& operator=(const Input&) = delete;
+
 		inline static bool IsKeyPressed(int keyCode) { return s_Instance->IsKeyPressedImpl(keyCode); }
 		inline static bool IsMouseButtonPressed(int button) { return s_Instance->IsMouseButtonPressedImpl(button); }
 		inline static float GetMouseX() { return s_Instance->GetMouseXImpl(); }
@@ -19,7 +24,7 @@ namespace Fracture {
 		virtual float GetMouseYImpl() = 0;
 		virtual std::pair<float, float> GetMousePositionImpl() = 0;
 	private:
-		static Input* s_Instance;
+		static Scope<Input> s_Instance;
 	};
 
 }

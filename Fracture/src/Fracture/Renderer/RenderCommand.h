@@ -33,9 +33,9 @@ namespace Fracture{
 			s_RendererAPI->Clear();
 		}
 	private:
-		static RendererAPI* CreateRendererAPI();
+		static Scope<RendererAPI> CreateRendererAPI();
 	private:
-		static RendererAPI* s_RendererAPI;
+		static Scope<RendererAPI> s_RendererAPI;
 	};
 
 }

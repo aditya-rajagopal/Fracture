@@ -28,7 +28,7 @@ namespace Fracture {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
-		GraphicsContext* m_Context;
+		Scope<GraphicsContext> m_Context;
 
 		struct WindowData
 		{
@@ -36,6 +36,8 @@ namespace Fracture {
 			uint32_t Width, Height;
 			EventCallbackFn EventCallback;
 			bool VSync;
+
+			WindowData() = default;
 		};
 
 		WindowData m_Data;

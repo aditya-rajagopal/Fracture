@@ -138,7 +138,10 @@ namespace Fracture
 		}
 
 		for (auto shaderID : glShaderIDs)
+		{
 			glDetachShader(program, shaderID);
+			glDeleteShader(shaderID);
+		}
 
 		m_RendererID = program;
 

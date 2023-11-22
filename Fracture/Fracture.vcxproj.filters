@@ -58,6 +58,9 @@
     <Filter Include="vendor\glm\glm\gtx">
       <UniqueIdentifier>{B3A6A76B-9F8A-68C1-08EB-6214F4ED5243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Fracture.h">
@@ -117,6 +120,9 @@
     <ClInclude Include="src\Fracture\Renderer\OrthographicCamera.h">
       <Filter>src\Fracture\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Fracture\Renderer\OrthographicCameraController.h">
+      <Filter>src\Fracture\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Fracture\Renderer\RenderCommand.h">
       <Filter>src\Fracture\Renderer</Filter>
     </ClInclude>
@@ -134,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="src\Fracture\Renderer\VertexArray.h">
       <Filter>src\Fracture\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fracture\Utils\Helpers.h">
+      <Filter>src\Fracture\Utils</Filter>
     </ClInclude>
     <ClInclude Include="src\Fracture\Utils\Instrumentation.h">
       <Filter>src\Fracture\Utils</Filter>
@@ -1419,9 +1428,9 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="vendor\stb_image\stb_image.h" />
-    <ClInclude Include="src\Fracture\Utils\Helpers.h" />
-    <ClInclude Include="src\Fracture\Renderer\OrthographicCameraController.h" />
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Fracture\Core\Application.cpp">
@@ -1445,6 +1454,9 @@
     <ClCompile Include="src\Fracture\Renderer\OrthographicCamera.cpp">
       <Filter>src\Fracture\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Fracture\Renderer\OrthographicCameraController.cpp">
+      <Filter>src\Fracture\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Fracture\Renderer\RenderCommand.cpp">
       <Filter>src\Fracture\Renderer</Filter>
     </ClCompile>
@@ -1462,6 +1474,9 @@
     </ClCompile>
     <ClCompile Include="src\Fracture\Renderer\VertexArray.cpp">
       <Filter>src\Fracture\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Fracture\Utils\Helpers.cpp">
+      <Filter>src\Fracture\Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\Fracture\Utils\Log.cpp">
       <Filter>src\Fracture\Utils</Filter>
@@ -1493,8 +1508,8 @@
     <ClCompile Include="src\frpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="vendor\stb_image\stb_image.cpp" />
-    <ClCompile Include="src\Fracture\Utils\Helpers.cpp" />
-    <ClCompile Include="src\Fracture\Renderer\OrthographicCameraController.cpp" />
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <Filter>vendor\stb_image</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
