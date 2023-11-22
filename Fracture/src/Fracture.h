@@ -36,6 +36,3 @@
 // --- Components ----------------------
 #include "Fracture\Components\Component.h"
 
-// --- Entry Point -----------------
-#include "Fracture\EntryPoint.h"
-
