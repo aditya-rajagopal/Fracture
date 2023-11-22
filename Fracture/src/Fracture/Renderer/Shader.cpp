@@ -73,6 +73,7 @@ namespace Fracture
 
 	Ref<Shader> ShaderLibrary::ILoad(const std::string& filepath)
 	{
+		// TODO: return a debug shader if the shader does not exist
 		std::filesystem::path path = filepath;
 		std::string name = path.stem().string();
 
@@ -89,6 +90,7 @@ namespace Fracture
 
 	Ref<Shader> ShaderLibrary::ILoad(const std::string& name, const std::string& filepath)
 	{
+		// TODO: return a debug shader if the shader does not exist
 		if (m_Shaders.find(name) != m_Shaders.end())
 		{
 			FR_CORE_WARN("Shader with name {0} already exists in the library. Use Get with {0} or provide a different name", name);
@@ -101,6 +103,7 @@ namespace Fracture
 
 	Ref<Shader> ShaderLibrary::ILoad(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 	{
+		// TODO: return a debug shader if the shader does not exist
 		if (m_Shaders.find(name) != m_Shaders.end())
 		{
 			FR_CORE_WARN("Shader with name {0} already exists in the library. Use Get with {0} or provide a different name", name);
@@ -113,12 +116,21 @@ namespace Fracture
 
 	Ref<Shader> ShaderLibrary::IGet(const std::string& name)
 	{
+		// TODO: return a debug shader if the shader does not exist
 		if (m_Shaders.find(name) == m_Shaders.end())
 		{
 			FR_CORE_WARN("Shader with name {0} does not exist in the library", name);
 			return nullptr;
 		}
 		return m_Shaders[name];
+	}
+
+	void ShaderLibrary::InitLibrary()
+	{
+		//TODO:: Add some default shaders to the library
+		// debug shader
+		// solid colour shader
+		// texture shader
 	}
 
 }
