@@ -47,10 +47,25 @@ namespace Fracture {
 		return true;
 	}
 
+	bool Application::OnWindowResize(WindowResizeEvent& e)
+	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		{
+			m_isMinimized = true;
+			return false;
+		}
+
+		m_isMinimized = false;
+
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+		return false;
+	}
+
 	void Application::OnEvent(Event& event)
 	{
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(FRACTURE_BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(FRACTURE_BIND_EVENT_FN(Application::OnWindowResize));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
@@ -90,9 +105,12 @@ namespace Fracture {
 			{ // Layer updates
 				FR_PROFILE_SCOPE("LayerStack::OnUpdate");
 				// Call the OnUpdate function of all the layers
-				for (Layer* layer : m_LayerStack)
+				if (!m_isMinimized)
 				{
-					layer->OnUpdate(deltaTime);
+					for (Layer* layer : m_LayerStack)
+					{
+						layer->OnUpdate(deltaTime);
+					}
 				}
 			}
 

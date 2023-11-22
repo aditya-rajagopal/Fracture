@@ -46,7 +46,7 @@ namespace Fracture
 			if (instance == nullptr)
 			{
 				instance = CreateScope<ShaderLibrary>();
-				instance->Init();
+				instance->InitLibrary();
 			}
 			return instance;
 		}
@@ -58,7 +58,7 @@ namespace Fracture
 		static Ref<Shader> Load(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) { return GetInstance()->ILoad(name, vertexSrc, fragmentSrc); }
 		static Ref<Shader> Get(const std::string& name) { return GetInstance()->IGet(name); }
 	private:
-		void Init();
+		void InitLibrary();
 		void IAdd(const std::string& name, const Ref<Shader>& shader); // add a shader to the library
 		void IAdd(const Ref<Shader>& shader); // add a shader to the library
 		Ref<Shader> ILoad(const std::string& filepath); // load a shader from a file

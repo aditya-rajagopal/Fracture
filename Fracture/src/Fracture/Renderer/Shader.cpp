@@ -39,12 +39,6 @@ namespace Fracture
 		return nullptr;
 	}
 
-
-	void ShaderLibrary::Init()
-	{
-
-	}
-
 	void ShaderLibrary::IAdd(const std::string& name, const Ref<Shader>& shader)
 	{
 		if (m_Shaders.find(name) != m_Shaders.end())
