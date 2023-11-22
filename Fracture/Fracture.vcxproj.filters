@@ -1493,5 +1493,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp" />
+    <ClCompile Include="src\Fracture\Utils\Helpers.cpp" />
   </ItemGroup>
 </Project>

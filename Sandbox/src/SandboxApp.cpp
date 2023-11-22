@@ -47,63 +47,8 @@ public:
 		m_Logo->VertexArray->SetIndexBuffer(Fracture::IndexBuffer::Create(squareIndices, 6));
 		m_Logo->Transform.SetScale(glm::vec3(0.5f));
 
-		//// Read our shaders into the appropriate buffers
-		//std::string flatColourvertexSource = R"(
-		//	#version 450 core
-		//	layout(location = 0) in vec3 a_Position;
-		//	
-		//	uniform mat4 u_ViewProjection;
-		//	uniform mat4 u_Transform;
-
-		//	void main()
-		//	{
-		//		gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-		//	}
-		//)";// Get source code for vertex shader.
-		//std::string flatColourfragmentSource = R"(
-		//	#version 450 core
-		//	layout(location = 0) out vec4 color;
-
-		//	uniform vec4 u_Color;
-
-		//	void main()
-		//	{
-		//		color = u_Color;
-		//	}
-		//)";// Get source code for fragment shader.
-
-		std::string textureVertexSource = R"(
-			#version 450 core
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec2 a_TexCoord;
-			
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-			
-			out vec2 v_TexCoord;
-
-			void main()
-			{
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-				v_TexCoord = a_TexCoord;
-			}
-		)";// Get source code for vertex shader.
-		std::string texturefragmentSource = R"(
-			#version 450 core
-			layout(location = 0) out vec4 color;
-
-			uniform sampler2D u_Texture;
-
-			in vec2 v_TexCoord;
-
-			void main()
-			{
-				color = texture(u_Texture, v_TexCoord);
-			}
-		)";// Get source code for fragment shader.
-
-		m_Square->Shader = Fracture::Shader::Create(textureVertexSource, texturefragmentSource);
-		m_BigSquare->Shader = Fracture::Shader::Create(textureVertexSource, texturefragmentSource);
+		m_Square->Shader = Fracture::Shader::Create("assets/shaders/TextureShader.glsl");
+		m_BigSquare->Shader = Fracture::Shader::Create("assets/shaders/TextureShader.glsl");
 		m_Logo->Shader = Fracture::Shader::Create("assets/shaders/TextureShader.glsl");
 
 		m_Texture = Fracture::Texture2D::Create("assets/textures/base-map.png"); // does not return a raw pointer.

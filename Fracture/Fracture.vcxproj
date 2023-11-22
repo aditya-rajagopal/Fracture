@@ -613,6 +613,7 @@
     <ClCompile Include="src\Fracture\Renderer\Shader.cpp" />
     <ClCompile Include="src\Fracture\Renderer\Texture.cpp" />
     <ClCompile Include="src\Fracture\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Fracture\Utils\Helpers.cpp" />
     <ClCompile Include="src\Fracture\Utils\Log.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
