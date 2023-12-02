@@ -14,7 +14,7 @@ namespace Fracture {
 		//Fracture::EventDispatcher::Connect<Fracture::MouseButtonPressedEvent>(FR_BIND_EVENT_FN(OrthographicCameraController::OnMouseButtonDownEvent));
 	}
 
-	void OrthographicCameraController::OnUpdate(Timestep delta_time)
+	void OrthographicCameraController::OnUpdate(Utils::Timestep delta_time)
 	{
 		m_LastFrameTime = delta_time;
 		FR_PROFILE_SCOPE("CameraController::OnUpdate");

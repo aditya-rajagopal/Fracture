@@ -14,7 +14,7 @@ namespace Sandbox
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
 
-		void OnUpdate(Fracture::Timestep ts) override;
+		void OnUpdate(Fracture::Utils::Timestep ts) override;
 		virtual void OnImGuiRender() override;
 		void OnEvent(Fracture::Event& e) override;
 	private:
@@ -38,7 +38,7 @@ namespace Sandbox
 
 		glm::vec3 m_LogoPosition = { -1.0f, 0.0f, 0.0f };
 
-		Fracture::Timestep m_LastFrameTime;
+		Fracture::Utils::Timestep m_LastFrameTime;
 
 		float m_SqaureAnimationSpeed = 0.5f;
 	};

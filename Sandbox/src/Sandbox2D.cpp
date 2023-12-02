@@ -73,7 +73,7 @@ namespace Sandbox {
 	{
 	}
 
-	void Sandbox2D::OnUpdate(Fracture::Timestep delta_time)
+	void Sandbox2D::OnUpdate(Fracture::Utils::Timestep delta_time)
 	{
 		FR_PROFILE_SCOPE("Application::Sandbox2D::OnUpdate");
 		//FR_TRACE("Delta time: {0}s ({1}ms)", delta_time.GetSeconds(), delta_time.GetMilliseconds());

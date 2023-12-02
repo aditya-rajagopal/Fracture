@@ -172,7 +172,6 @@
     <ClInclude Include="src\Fracture\Utils\Helpers.h" />
     <ClInclude Include="src\Fracture\Utils\Instrumentation.h" />
     <ClInclude Include="src\Fracture\Utils\Log.h" />
-    <ClInclude Include="src\Fracture\Utils\Timestep.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />

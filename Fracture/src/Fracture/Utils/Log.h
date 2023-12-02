@@ -1,20 +1,48 @@
 #pragma once
+/*!
+* @file Log.h
+* @brief Contains the Log class that is used to log messages to the console.
+* 
+* @see spdlog
+* 
+* @todo: Add logging to file
+* 
+* @author Aditya Rajagopal
+*/
 
 #include "Fracture\Core\Core.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
 
 namespace Fracture {
+
+	/*!
+	* @brief The Log class is used to log messages to the console.
+	*/
 	class FRACTURE_API Log
 	{
 	public:
+		/*!
+		* @brief Function that initializes the logging system. Sets  up the core logger and the client logger  with the appropriate formatting.
+		*/
 		static void Init();
 
+		/*!
+		* @brief Function that returns the core logger.
+		* 
+		* @return Ref<spdlog::logger>&: The core logger.
+		*/
 		inline static Ref<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
+
+		/*!
+		* @brief Function that returns the client logger.
+		* 
+		* @return Ref<spdlog::logger>&: The client logger.
+		*/
 		inline static Ref<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
 	private:
-		static Ref<spdlog::logger> s_ClientLogger;
-		static Ref<spdlog::logger> s_CoreLogger;
+		static Ref<spdlog::logger> s_ClientLogger; /// The client logger
+		static Ref<spdlog::logger> s_CoreLogger; /// The core logger
 	};
 }
 

@@ -150,9 +150,6 @@
     <ClInclude Include="src\Fracture\Utils\Log.h">
       <Filter>src\Fracture\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\Fracture\Utils\Timestep.h">
-      <Filter>src\Fracture\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>

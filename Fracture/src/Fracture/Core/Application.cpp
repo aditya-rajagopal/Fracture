@@ -12,7 +12,7 @@
 
 namespace Fracture {
 
-	Application* Application::s_Instance = nullptr;
+	Application* Application::s_Instance = nullptr; /// this is a static pointer to the application class.
 
 	Application::Application()
 	{
@@ -82,7 +82,7 @@ namespace Fracture {
 
 			auto m_StartTimepoint = std::chrono::high_resolution_clock::now();
 			long long startTime = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
-			Timestep deltaTime = (startTime - m_LastFrameTime) / 1000.0f / 1000.0f;
+			Utils::Timestep deltaTime = (startTime - m_LastFrameTime) / 1000.0f / 1000.0f;
 			m_LastFrameTime = startTime;
 
 			if(frameCount == 0)

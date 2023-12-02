@@ -1,7 +1,19 @@
 #pragma once
+/*!
+* @file KeyCodes.h
+* @brief KeyCodes header file.
+* 
+* Contains the key codes for the keyboard.
+* 
+* @see https://www.glfw.org/docs/latest/group__keys.html
+* 
+*/
 
-
-/* Printable keys */
+/*! @defgroup buttons Keyboard buttons
+ *  @brief Keyboard key IDs.
+ *
+ *  @ingroup input
+ *  @{ */
 #define FR_KEY_SPACE              32
 #define FR_KEY_APOSTROPHE         39  /* ' */
 #define FR_KEY_COMMA              44  /* , */
@@ -127,6 +139,7 @@
 #define FR_KEY_LEFT_WINDOWS       343
 #define FR_KEY_RIGHT_SUPER        347
 #define FR_KEY_RIGHT_WINDOWS      347
+/*! @} */
 
 /*! @brief If this bit is set one or more Shift keys were held down.
  *

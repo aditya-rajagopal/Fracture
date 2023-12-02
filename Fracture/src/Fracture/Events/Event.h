@@ -1,4 +1,15 @@
 #pragma once
+/*
+* @file Event.h
+* @brief Event header file containing the Event class and the EventDispatcher class.
+* 
+* @see ApplicationEvent.h
+* @see KeyEvent.h
+* @see MouseEvent.h
+* 
+* @author Aditya Rajagopal
+*/
+
 #include "frpch.h"
 #include "Fracture\Core\Core.h"
 
@@ -7,6 +18,9 @@ namespace Fracture {
 
 	//TODO: Buffer events and process during update stage in an events pass
 
+	/*!
+	* @brief Enum class for the different types of events.
+	*/
 	enum class EventType
 	{
 		// These are implemented in the individual event classes
@@ -17,6 +31,9 @@ namespace Fracture {
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
+	/*!
+	* @brief Enum class for the different categories of events. These are bit masks that can be combined
+	*/
 	enum EventCategory
 	{
 		None = 0,
@@ -36,30 +53,79 @@ namespace Fracture {
 								virtual EventType GetEventType() const override { return GetStaticType(); }\
 								virtual const char* GetName() const override { return #type; }
 
+/// Macro that overrides the virtual function in the base class to return the category flags of the event
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
+	/*!
+	* @brief Base class for all events.
+	*/
 	class FRACTURE_API Event
 	{
 		friend class EventDispatcher; // The event dispatcher can access the protected members of the event class
 	public:
-		virtual EventType GetEventType() const = 0; // Pure Virtual function, to gethe type of the event
-		virtual const char* GetName() const = 0; // Pure Virtual function, to get the name of the event
-		virtual int GetCategoryFlags() const = 0; // Pure Virtual function, to get the category flags of the event in bit mask form
-		virtual std::string ToString() const { return GetName(); } // Virtual function, typecast the const char* GetName() to a string
+		/*!
+		* @brief Pure Virtual function, to get the type of the event
+		* 
+		* @see EventType
+		* 
+		* @return EventType The type of the event
+		*/
+		virtual EventType GetEventType() const = 0; // 
 
-		inline bool IsInCategory(EventCategory category) // Check if the event is in a certain category
+		/*!
+		* @brief Pure Virtual function, to get the name of the event
+		* 
+		* @return const char* The name of the event
+		*/
+		virtual const char* GetName() const = 0;
+
+		/*!
+		* @brief Pure Virtual function, to get the category flags of the event
+		* 
+		* @return int The category flags of the event
+		*/
+		virtual int GetCategoryFlags() const = 0;
+
+		/*!
+		* @brief Virtual function, to get the string representation of the event. Default implementation is to return the name of the event.
+		* 
+		* @return std::string The string representation of the event
+		*/
+		virtual std::string ToString() const { return GetName(); }
+
+		/*!
+		* @brief Function to check if the event is in a certain category
+		* 
+		* @param EventCategory category: The category to check
+		*/
+		inline bool IsInCategory(EventCategory category)
 		{
 			return GetCategoryFlags() & category; // This is a bitwise AND operation. It checks if the category is in the flags of the event
 		}
 
-		bool Handled = false; // This is set to true if the event is handled by the event dispatcher
+		bool Handled = false; /// This is set to true if the event is handled by the event dispatcher
 	};
 
 	class EventDispatcher
 	{
 	public:
-		EventDispatcher(Event& event) : mEvent(event) {} // Constructor
+		/*!
+		* @brief Constructor for the event dispatcher.
+		* 
+		* @param Event& event: The event that is being dispatched
+		*/
+		EventDispatcher(Event& event) : mEvent(event) {}
 
+		/*!
+		* @brief Dispatch function that takes a function as a parameter and calls it if the event is of type T
+		* 
+		* @tparam T: The type of the event
+		* @tparam F: The type of the function
+		* 
+		* @param const F& func: The function that is being to be called. It takes a reference of type T and returns a bool
+		* 
+		* @return bool: Returns true if the event is of type T
+		*/
 		template<typename T, typename F>
 		bool Dispatch(const F& func)
 		{
@@ -73,10 +139,18 @@ namespace Fracture {
 			return false; // Return false if the event is not of type T
 		}
 	private: 
-		Event& mEvent; // Reference to the event that is being dispatched
+		Event& mEvent; /// Reference to the event that is being dispatched
 	};
 
-	inline std::ostream& operator<<(std::ostream& stream, const Event& event) // This is an overload of the << operator for events
+	/*!
+	* @brief Overload of the << operator for events. It calls the ToString() function of the event and then pushes it to the stream.
+	* 
+	* @param std::ostream& stream: The stream to push the event to
+	* @param const Event& event: The event to push to the stream
+	* 
+	* @return std::ostream&: The stream with the event pushed to it
+	*/
+	inline std::ostream& operator<<(std::ostream& stream, const Event& event)
 	{
 		return stream << event.ToString(); // This calls the ToString() function of the event
 	}

@@ -32,6 +32,7 @@ namespace Fracture {
 		//glEnable(GL_CULL_FACE);
 		//glCullFace(GL_BACK);
 		//glFrontFace(GL_CCW);
+		m_IsInitialized = true;
 	}
 
 	void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)

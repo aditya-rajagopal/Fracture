@@ -1,4 +1,13 @@
 #pragma once
+/*!
+* @file MouseButtonCodes.h
+* @brief MouseButtonCodes header file.
+* 
+* Contains the mouse button codes.
+* 
+* @see https://www.glfw.org/docs/latest/group__buttons.html
+*/
+
 
 /*! @defgroup buttons Mouse buttons
  *  @brief Mouse button IDs.

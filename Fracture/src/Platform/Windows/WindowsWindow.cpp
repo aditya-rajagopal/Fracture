@@ -10,8 +10,15 @@
 
 namespace Fracture {
 
-	static uint8_t s_GLFWWindowCount = 0;
+	static uint8_t s_GLFWWindowCount = 0; // keep track of the number of windows that are currently active
 
+	/*!
+	* @brief This is a function that will create a window object. This function is defined here because the window class is a platform independent class.
+	* 
+	* @param[in] WindowProperties props: The properties of the window that is to be created.
+	* 
+	* @return Window*: A pointer to the window object that was created.
+	*/
 	Window* Window::Create(const WindowProperties& props)
 	{
 		return new WindowsWindow(props);

@@ -1,4 +1,13 @@
 #pragma once
+/**
+* @file Core.h
+* @brief Core header file.
+* 
+* Contains the core macros and functions to be used throughout the engine.
+* 
+* @author Aditya Rajagopal
+*/
+
 
 #include <memory>
 

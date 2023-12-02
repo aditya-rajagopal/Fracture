@@ -1,4 +1,13 @@
 #pragma once
+/*!
+* @file frpch.h
+* 
+* @brief Precompiled header file for Fracture engine.
+* 
+* @see https://docs.microsoft.com/en-us/cpp/build/reference/creating-precompiled-header-files?view=vs-2019
+* 
+* @author Aditya Rajagopal
+*/
 
 #include <memory>
 #include <utility>
@@ -24,5 +33,4 @@
 
 #include "Fracture\Utils\Log.h"
 #include "Fracture\Utils\Instrumentation.h"
-#include "Fracture\Utils\Timestep.h"
 #include "Fracture\Utils\Helpers.h"

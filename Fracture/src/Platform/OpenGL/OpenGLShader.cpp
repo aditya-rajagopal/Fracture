@@ -149,7 +149,7 @@ namespace Fracture
 	}
 
 
-	/**
+	/*!
 	* OpenGLShader Constructor with a vertex and fragment shader source
 	* 
 	* This function will create a shader program.
@@ -168,7 +168,7 @@ namespace Fracture
 	}
 
 
-	/**
+	/*!
 	* OpenGLShader Constructor with a shader file path
 	* 
 	* This function will read the shader file and create a shader program.

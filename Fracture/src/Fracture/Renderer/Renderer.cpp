@@ -8,12 +8,13 @@ namespace Fracture
 
 	void Renderer::Init()
 	{
-		RenderCommand::Init();
+		RenderCommand::GetRendererAPI();
 	}
 
 	void Renderer::BeginScene(OrthographicCamera& camera)
 	{
 		s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+		s_SceneData->CurrentBoundShader = 0;
 	}
 
 	void Renderer::EndScene()
@@ -27,7 +28,11 @@ namespace Fracture
 
 	void Renderer::Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, const glm::mat4& transform = glm::mat4(1.0))
 	{
-		shader->Bind();
+		if (shader->GetHandle() != s_SceneData->CurrentBoundShader)
+		{
+			shader->Bind();
+			s_SceneData->CurrentBoundShader = shader->GetHandle();
+		}
 		shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
 		shader->SetMat4("u_Transform", transform);
 		vertexArray->Bind();
